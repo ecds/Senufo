@@ -3,7 +3,7 @@ from import_export.admin import ImportExportModelAdmin
 from import_export import fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from django.contrib import admin
-from Senufo_App.models import Object_Records, Images, Artists_Creators, Places, Objects_Places_Reason
+from Senufo_App.models import Object_Records, Images, Artists_Creators, Places, Objects_Places_Reason, PrintObjectPlace, Print_Map
 
 class Object_RecordsResource(resources.ModelResource):
     Artist = fields.Field(column_name='Artist', attribute='Artist', widget=ManyToManyWidget(Artists_Creators, ',', 'Artist_Name'))
@@ -74,30 +74,42 @@ class PlacesAdmin(admin.ModelAdmin):
 
 
 class Object_Places_ReasonResource(resources.ModelResource):
-    Object_Name = fields.Field(column_name='Object_Name', attribute='Object_Name', widget=ForeignKeyWidget(Object_Records, 'Object_Name'))
-    Place_Name = fields.Field(column_name='Place_Name', attribute='Place_Name', widget=ForeignKeyWidget(Places, 'Place_Name'))
+    Object_Name = fields.Field(column_name='Objects_Name', attribute='Objects_Name', widget=ForeignKeyWidget(Object_Records, 'Object_Name'))
+    Place_Name = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Place_Name'))
     class Meta:
         model = Object_Records
-        fields = ('Object_Name', 'Place_Name',)
-        export_order = ('Object_Name', 'Place_Name',)
+        fields = ('Objects_Name', 'Places_Name',)
+        export_order = ('Objects_Name', 'Places_Name',)
 
 class Objects_Places_ReasonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = Object_Places_ReasonResource
     fieldsets = (
         (None, {
-            'fields': ('Object_Name', 'Place_Name', 'ReasonForPlace')
+            'fields': ('Objects_Name', 'Places_Name', 'ReasonForPlace')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
             'fields': ('ObjectPlaceReason_Notes1',)
         }),
     )
-    list_display = ('Object_Name', 'Place_Name', 'ReasonForPlace')
+    list_display = ('Objects_Name', 'Places_Name', 'ReasonForPlace')
     search_fields = ('ReasonForPlace',)
 
+class Print_MapResource(resources.ModelResource):
+    class Meta:
+        model = Print_Map
+        fields = ('Object_Name', 'Object_Description', 'Place', 'Latitude', 'Longitude',)
+        export_order = ('Object_Name', 'Object_Description', 'Place', 'Latitude', 'Longitude',)
+  
+
+class Print_MapAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = Print_MapResource
+    list_display = ('IDNo', 'Object_Name', 'Object_Description', 'Place', 'Latitude', 'Longitude')
 
 admin.site.register(Object_Records, Object_RecordsAdmin)
 admin.site.register(Images, ImagesAdmin)
 admin.site.register(Artists_Creators, Artists_CreatorsAdmin)
 admin.site.register(Places, PlacesAdmin)
 admin.site.register(Objects_Places_Reason, Objects_Places_ReasonAdmin)
+admin.site.register(PrintObjectPlace)
+admin.site.register(Print_Map, Print_MapAdmin)

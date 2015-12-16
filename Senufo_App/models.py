@@ -12,6 +12,7 @@ class Artists_Creators(models.Model):
         return u"%s" % (self.Artist_Name)
 
 class Object_Records(models.Model):
+    Object_id = models.AutoField(primary_key=True)
     Object_Name = models.CharField(max_length=200, blank=True, null=True)
     Object_Type = models.CharField(max_length=45, blank=True, null=True)
     Artist = models.ManyToManyField(Artists_Creators, blank=True)
@@ -66,6 +67,7 @@ class Images(models.Model):
 
 
 class Places(models.Model):
+    Places_id = models.AutoField(primary_key=True)
     Place_Name = models.CharField(max_length=200, blank=True, null=True)
     Latitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True)
     Longitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True)
@@ -84,8 +86,9 @@ class Places(models.Model):
 
 
 class Objects_Places_Reason(models.Model):
-    Object_Name = models.ForeignKey('Object_Records', blank=True, null=True)
-    Place_Name = models.ForeignKey(Places, blank=True, null=True)
+    Reason_id = models.AutoField(primary_key=True)
+    Objects_Name = models.ForeignKey('Object_Records', blank=True, null=True)
+    Places_Name = models.ForeignKey(Places, blank=True, null=True)
     ReasonForPlace = models.TextField(blank=True, null=True)
     ObjectPlaceReason_Notes1 = models.TextField(blank=True, null=True)
     
@@ -93,4 +96,20 @@ class Objects_Places_Reason(models.Model):
         verbose_name = 'Object Locations and Reasons for them'
         verbose_name_plural = 'Object Locations and Reasons for them'
     def __unicode__(self):
-        return u"%s, %s" % (self.Object_Name, self.Place_Name)
+        return u"%s, %s" % (self.Objects_Name, self.Places_Name)
+
+class PrintObjectPlace(Object_Records, Places, Objects_Places_Reason):
+    Printed = models.CharField(max_length=10, blank=True, null=True)
+
+
+
+class Print_Map(models.Model):
+    IDNo = models.AutoField(primary_key=True)
+    Object_Name = models.CharField(max_length=200, blank=True, null=True)
+    Object_Description = models.TextField(blank=True, null=True)
+    Place = models.CharField(max_length=200, blank=True, null=True)
+    Latitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True)
+    Longitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True)
+    class Meta:
+        db_table = 'Senufo_App_Print_Map'
+        managed = False
