@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from Senufo_App import views
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls), name="admin"),
+    url(r'^$', views.object_location, name="Object and Place"),
+    url(r'^export', views.object_place, name="Object Location"),
 ]

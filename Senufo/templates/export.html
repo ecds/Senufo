@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Export{% endblock %}
+<head><h1>Export</h1></head>
+{% block content %}
+<body>
+<div class='content'>
+
+<h1>Export</h1>
+
+{% for ObjectVariable in ObjectVariables %}
+  <p><button class="toggle" onclick="toggle_ul('list{{ ObjectVariable.id }}')">{{ObjectVariable.Object_Name}}<font size="-1">
+      - {{ObjectVariable.Object_Type}}
+     - ({{ObjectVariable.Object_Description}})</font></button></p>
+
+<div id='list{{ ObjectVariable.id }}' class='toggle' style='display: block;'>
+  <div class="row">
+  {% for PlaceVariable in PlaceVariables %}
+  {% for PlaceLocation in PlaceLocations %}
+  {% if PlaceLocation.Place_Name.id == PlaceVariable.id and PlaceLocation.Object_Name.id == ObjectVariable.id %}
+   <div class="col-md-12" align="middle">
+  <p class="caption" align="middle" style="height:100px">{{PlaceLocation.Place_Name}}, {{PlaceVariable.Place_Name}}, {{ObjectVariable.Object_Name}}<br>
+  <font size="-1.5">{{PlaceVariable.Latitude}}, {{PlaceVariable.Longitude}}
+  </font></p></a></div>{% endif %}{% endfor %}{% endfor %}
+  </div>
+  </div>
+</ul>
+{% endfor %}
+</div>
+</body>
+{% endblock %}

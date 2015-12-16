@@ -1,7 +1,19 @@
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+from import_export import fields
+from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from django.contrib import admin
 from Senufo_App.models import Object_Records, Images, Artists_Creators, Places, Objects_Places_Reason
 
-class Object_RecordsAdmin(admin.ModelAdmin):
+class Object_RecordsResource(resources.ModelResource):
+    Artist = fields.Field(column_name='Artist', attribute='Artist', widget=ManyToManyWidget(Artists_Creators, ',', 'Artist_Name'))
+    class Meta:
+        model = Object_Records
+        fields = ('Object_Name', 'Object_Type', 'Object_Description', 'Artist', 'ArtistAttributionCertainty', 'Essay', 'ResearchNotes1', 'ResearchNotes2',)
+        export_order = ('Object_Name', 'Object_Type', 'Object_Description', 'Artist', 'ArtistAttributionCertainty', 'Essay', 'ResearchNotes1', 'ResearchNotes2',)
+
+class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = Object_RecordsResource
     fieldsets = (
         (None, {
             'fields': ('Object_Name', 'Object_Type', 'Artist', 'ArtistAttributionCertainty', 'Object_Description', 'Object_Creation_date', 'Material', 'Dimensions', 'Essay', 'Essay_Author', 'Publication', 'Publication_PageNo', 'Publication_ImageNo')
@@ -61,7 +73,16 @@ class PlacesAdmin(admin.ModelAdmin):
     search_fields = ('Place_Name', 'NGA_Place', 'NGA_Region', 'NGA_Country', 'Map_Place', 'Map_Country')
 
 
-class Objects_Places_ReasonAdmin(admin.ModelAdmin):
+class Object_Places_ReasonResource(resources.ModelResource):
+    Object_Name = fields.Field(column_name='Object_Name', attribute='Object_Name', widget=ForeignKeyWidget(Object_Records, 'Object_Name'))
+    Place_Name = fields.Field(column_name='Place_Name', attribute='Place_Name', widget=ForeignKeyWidget(Places, 'Place_Name'))
+    class Meta:
+        model = Object_Records
+        fields = ('Object_Name', 'Place_Name',)
+        export_order = ('Object_Name', 'Place_Name',)
+
+class Objects_Places_ReasonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = Object_Places_ReasonResource
     fieldsets = (
         (None, {
             'fields': ('Object_Name', 'Place_Name', 'ReasonForPlace')

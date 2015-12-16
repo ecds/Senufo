@@ -1,0 +1,7 @@
+django==1.8.5
+python-dateutil
+soaplib==0.8.1
+rdflib>=3.0
+ply
+mysql
+django-import-export
