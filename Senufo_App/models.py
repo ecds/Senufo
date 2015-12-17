@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import connection, models
 
 class Artists_Creators(models.Model):
     Artist_Name = models.CharField(max_length=200, verbose_name="Artist's Name", blank=True, null=True)
@@ -98,18 +98,27 @@ class Objects_Places_Reason(models.Model):
     def __unicode__(self):
         return u"%s, %s" % (self.Objects_Name, self.Places_Name)
 
-class PrintObjectPlace(Object_Records, Places, Objects_Places_Reason):
-    Printed = models.CharField(max_length=10, blank=True, null=True)
+#class PrintObjectPlace(models.Model):
 
 
+#class GetDATAManager(models.Manager):
+ #   def infostuff(self):
+ #       cursor = connection.cursor()
+ #       cursor.execute("'SELECT `senufo_app_objects_places_reason`.`Reason_id`, `senufo_app_object_records`.`Object_Name`, `senufo_app_object_records`.`Object_Description`, `senufo_app_places`.`Place_Name`, `senufo_app_places`.`Latitude`, `senufo_app_places`.`Longitude` FROM ((`senufo_app_object_records` INNER JOIN `senufo_app_objects_places_reason`) INNER JOIN `senufo_app_places`) WHERE ((`senufo_app_objects_places_reason`.`Objects_Name_id` = `senufo_app_object_records`.`Object_id`) AND (`senufo_app_objects_places_reason`.`Places_Name_id` = `senufo_app_places`.`Places_id`))'")
+ #       return [row[0] for row in cursor.fetchone()]
 
-class Print_Map(models.Model):
-    IDNo = models.AutoField(primary_key=True)
-    Object_Name = models.CharField(max_length=200, blank=True, null=True)
-    Object_Description = models.TextField(blank=True, null=True)
-    Place = models.CharField(max_length=200, blank=True, null=True)
-    Latitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True)
-    Longitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True)
-    class Meta:
-        db_table = 'Senufo_App_Print_Map'
-        managed = False
+#class GetDATAclass(models.Model):
+#    ObjectName = GetDATAManager()
+
+
+#class Print_Map(models.Model):
+#    IDNo = models.AutoField(primary_key=True)
+#    Object_Name = models.CharField(max_length=200, blank=True, null=True)
+#    Object_Description = models.TextField(blank=True, null=True)
+#    Place = models.CharField(max_length=200, blank=True, null=True)
+#    Latitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True)
+#    Longitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True)
+#    class Meta:
+#        db_table = 'Senufo_App_Print_Map'
+#        managed = False
+#        verbose_name = 'Print csv for the Map'

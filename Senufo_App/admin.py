@@ -3,7 +3,7 @@ from import_export.admin import ImportExportModelAdmin
 from import_export import fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from django.contrib import admin
-from Senufo_App.models import Object_Records, Images, Artists_Creators, Places, Objects_Places_Reason, PrintObjectPlace, Print_Map
+from Senufo_App.models import Object_Records, Images, Artists_Creators, Places, Objects_Places_Reason
 
 class Object_RecordsResource(resources.ModelResource):
     Artist = fields.Field(column_name='Artist', attribute='Artist', widget=ManyToManyWidget(Artists_Creators, ',', 'Artist_Name'))
@@ -95,21 +95,21 @@ class Objects_Places_ReasonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('Objects_Name', 'Places_Name', 'ReasonForPlace')
     search_fields = ('ReasonForPlace',)
 
-class Print_MapResource(resources.ModelResource):
-    class Meta:
-        model = Print_Map
-        fields = ('Object_Name', 'Object_Description', 'Place', 'Latitude', 'Longitude',)
-        export_order = ('Object_Name', 'Object_Description', 'Place', 'Latitude', 'Longitude',)
+#class Print_MapResource(resources.ModelResource):
+#    class Meta:
+#        model = Print_Map
+#        fields = ('Object_Name', 'Object_Description', 'Place', 'Latitude', 'Longitude',)
+#        export_order = ('Object_Name', 'Object_Description', 'Place', 'Latitude', 'Longitude',)
   
 
-class Print_MapAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    resource_class = Print_MapResource
-    list_display = ('IDNo', 'Object_Name', 'Object_Description', 'Place', 'Latitude', 'Longitude')
+#class Print_MapAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+#    resource_class = Print_MapResource
+#    list_display = ('IDNo', 'Object_Name', 'Object_Description', 'Place', 'Latitude', 'Longitude')
 
 admin.site.register(Object_Records, Object_RecordsAdmin)
 admin.site.register(Images, ImagesAdmin)
 admin.site.register(Artists_Creators, Artists_CreatorsAdmin)
 admin.site.register(Places, PlacesAdmin)
 admin.site.register(Objects_Places_Reason, Objects_Places_ReasonAdmin)
-admin.site.register(PrintObjectPlace)
-admin.site.register(Print_Map, Print_MapAdmin)
+#admin.site.register(GetDATAclass)
+#admin.site.register(Print_Map, Print_MapAdmin)
