@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls), name="admin"),
     url(r'^$', views.object_location, name="Object and Place"),
     url(r'^export', views.object_place, name="Object Location"),
-    url(r'^Map_Print', views.map_working, name="Create CSV"),
+    url(r'^Map_Print/$', views.map_working, name="Create CSV"),
+    url(r'^Map_PrintCSV/$', views.map_printcsv, name="CSV Link"),
 ]
