@@ -29,8 +29,8 @@ class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('Object_Name', 'Object_Type', 'Object_Description')
     search_fields = ('Object_Name', 'Object_Type', 'Object_Description', 'Essay', 'ResearchNotes1', 'ResearchNotes2')
 
-
-class ImagesAdmin(admin.ModelAdmin):
+    
+class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Objects_ID_No1', 'Objects_ID_No2', 'Objects_ID_No3', 'Image_Filename', 'stable_url', 'HaveImage_YesNo', 'Copyright_Permissions', 'Image_Creation_Date')
@@ -76,10 +76,11 @@ class PlacesAdmin(admin.ModelAdmin):
 class Object_Places_ReasonResource(resources.ModelResource):
     Object_Name = fields.Field(column_name='Objects_Name', attribute='Objects_Name', widget=ForeignKeyWidget(Object_Records, 'Object_Name'))
     Place_Name = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Place_Name'))
+    Image_Name = fields.Field(column_name='Related_Image', attribute='Related_Image', widget=ForeignKeyWidget(Images, 'Image_Name'))
     class Meta:
         model = Object_Records
-        fields = ('Objects_Name', 'Places_Name',)
-        export_order = ('Objects_Name', 'Places_Name',)
+        fields = ('Objects_Name', 'Image_Name', 'Places_Name',)
+        export_order = ('Objects_Name', 'Image_Name', 'Places_Name',)
 
 class Objects_Places_ReasonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = Object_Places_ReasonResource
