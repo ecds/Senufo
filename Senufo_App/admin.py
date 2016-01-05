@@ -85,7 +85,7 @@ class Objects_Places_ReasonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = Object_Places_ReasonResource
     fieldsets = (
         (None, {
-            'fields': ('Objects_Name', 'Places_Name', 'ReasonForPlace')
+            'fields': ('Objects_Name', 'Related_Image', 'Places_Name', 'ReasonForPlace')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),

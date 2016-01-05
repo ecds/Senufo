@@ -88,6 +88,7 @@ class Places(models.Model):
 class Objects_Places_Reason(models.Model):
     Reason_id = models.AutoField(primary_key=True)
     Objects_Name = models.ForeignKey('Object_Records', blank=True, null=True)
+    Related_Image = models.ForeignKey('Images', blank=True, null=True)
     Places_Name = models.ForeignKey(Places, blank=True, null=True)
     ReasonForPlace = models.TextField(blank=True, null=True)
     ObjectPlaceReason_Notes1 = models.TextField(blank=True, null=True)
