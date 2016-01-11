@@ -33,15 +33,15 @@ class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Objects_ID_No1', 'Objects_ID_No2', 'Objects_ID_No3', 'Image_Filename', 'stable_url', 'HaveImage_YesNo', 'Copyright_Permissions', 'Image_Creation_Date')
+            'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Objects_ID_No1', 'Objects_ID_No2', 'Objects_ID_No3', 'Image_Filename', 'stable_url', 'HaveImagePermissions_YesNo', 'Copyright_Permissions', 'Image_Creation_Date')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
             'fields': ('Image_Notes1',)
         }),
     )
-    list_display = ('Image_Name', 'HaveImage_YesNo', 'Copyright_Permissions')
-    search_fields = ('Image_Name', 'HaveImage_YesNo', 'Copyright_Permissions')
+    list_display = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions')
+    search_fields = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions')
 
 
 

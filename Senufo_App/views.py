@@ -22,6 +22,6 @@ from Senufo_App.models import Object_Records, Images, Artists_Creators, Places, 
 
 
 def map_working(request):
-    PlaceLocations = Objects_Places_Reason.objects.values('Reason_id', 'Objects_Name__Object_Name', 'Objects_Name__Object_Description', 'Related_Image__Image_Name', 'Places_Name__Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude')
+    PlaceLocations = Objects_Places_Reason.objects.values('Reason_id', 'Objects_Name__Object_Name', 'Objects_Name__Object_Description', 'Objects_Name__Artist__Artist_Name', 'Related_Image__Image_Name', 'Related_Image__ImageCreator_Name__Artist_Name', 'Related_Image__stable_url', 'Places_Name__Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude')
     return render_to_csv_response(PlaceLocations)
 
