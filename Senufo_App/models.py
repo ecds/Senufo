@@ -16,7 +16,7 @@ class Object_Records(models.Model):
     Object_Name = models.CharField(max_length=200, blank=True, null=True)
     Object_Type = models.CharField(max_length=45, blank=True, null=True)
     Artist = models.ManyToManyField(Artists_Creators, blank=True)
-    ArtistAttributionCertainty = models.CharField(max_length=200, blank=True, null=True)
+    ArtistAttributionCertainty = models.CharField(verbose_name="Artist Attribution Certainty", max_length=200, blank=True, null=True)
     Object_Description = models.TextField(blank=True, null=True)
     Object_Creation_date = models.CharField(max_length=45, blank=True, null=True)
     Material = models.CharField(max_length=200, blank=True, null=True)
@@ -48,7 +48,7 @@ class Object_Records(models.Model):
 class Images(models.Model):
     Image_Name = models.CharField(max_length=500, blank=True, null=True)
     ImageCreator_Name = models.ManyToManyField(Artists_Creators, verbose_name="Image Creator's Name", blank=True)
-    CreatorAttributionCertainty = models.CharField(max_length=200, blank=True, null=True)
+    CreatorAttributionCertainty = models.CharField(verbose_name="Creator Attribution Certainty", max_length=200, blank=True, null=True)
     Objects_ID_No1 = models.ForeignKey('Object_Records', related_name='ImageObject1', blank=True, null=True)
     Objects_ID_No2 = models.ForeignKey('Object_Records', related_name='ImageObject2', blank=True, null=True)
     Objects_ID_No3 = models.ForeignKey('Object_Records', related_name='ImageObject3', blank=True, null=True)
@@ -87,10 +87,10 @@ class Places(models.Model):
 
 class Objects_Places_Reason(models.Model):
     Reason_id = models.AutoField(primary_key=True)
-    Objects_Name = models.ForeignKey('Object_Records', blank=True, null=True)
+    Objects_Name = models.ForeignKey('Object_Records', verbose_name="Object's Name", blank=True, null=True)
     Related_Image = models.ForeignKey('Images', blank=True, null=True)
-    Places_Name = models.ForeignKey(Places, blank=True, null=True)
-    ReasonForPlace = models.TextField(blank=True, null=True)
+    Places_Name = models.ForeignKey(Places, verbose_name="Place's Name", blank=True, null=True)
+    ReasonForPlace = models.TextField(verbose_name="Reason for the Place", blank=True, null=True)
     ObjectPlaceReason_Notes1 = models.TextField(blank=True, null=True)
     
     class Meta:

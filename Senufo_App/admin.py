@@ -13,6 +13,7 @@ class Object_RecordsResource(resources.ModelResource):
         export_order = ('Object_Name', 'Object_Type', 'Object_Description', 'Artist', 'ArtistAttributionCertainty', 'Essay', 'ResearchNotes1', 'ResearchNotes2',)
 
 class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    filter_horizontal = ('Artist',)
     resource_class = Object_RecordsResource
     fieldsets = (
         (None, {
@@ -31,6 +32,7 @@ class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
     
 class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    filter_horizontal = ('ImageCreator_Name',)
     fieldsets = (
         (None, {
             'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Objects_ID_No1', 'Objects_ID_No2', 'Objects_ID_No3', 'Image_Filename', 'stable_url', 'HaveImagePermissions_YesNo', 'Copyright_Permissions', 'Image_Creation_Date')
