@@ -5,3 +5,4 @@ rdflib>=3.0
 ply
 mysql
 django-import-export
+django-queryset-csv
