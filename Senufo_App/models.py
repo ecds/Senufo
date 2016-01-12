@@ -90,14 +90,15 @@ class Places(models.Model):
         return u"%s" % (self.Map_Place_Name)
 
 class AdditionalPlaces(models.Model):
-    Additional_Place_Name = models.CharField(max_length=200)
+    Alternate_Place_Name = models.CharField(verbose_name="Alternate Place Name", max_length=200)
+    Alternate_Name_Source = models.CharField(max_length=500, blank=True, null=True)
     NGA_Place_Name = models.ForeignKey(Places, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Additional Place Name or Spelling'
-        verbose_name_plural = 'Additional Place Names or Spellings'
+        verbose_name = 'Alternate Place Name or Spelling'
+        verbose_name_plural = 'Alternate Place Names or Spellings'
     def __unicode__(self):
-        return u"%s" % (self.Additional_Place_Name)
+        return u"%s" % (self.Alternate_Place_Name)
 
 class Objects_Places_Reason(models.Model):
     Reason_id = models.AutoField(primary_key=True)
