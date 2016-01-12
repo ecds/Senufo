@@ -6,3 +6,4 @@ ply
 mysql
 django-import-export
 django-queryset-csv
+django-tinymce

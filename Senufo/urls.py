@@ -20,4 +20,5 @@ from Senufo_App import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls), name="admin"),
     url(r'^Map_Print/$', views.map_working, name="Create CSV"),
+    url(r'^tinymce/', include('tinymce.urls')),
 ]

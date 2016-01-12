@@ -17,10 +17,13 @@ class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = Object_RecordsResource
     fieldsets = (
         (None, {
-            'fields': ('Object_Name', 'Object_Type', 'Artist', 'ArtistAttributionCertainty', 'Object_Description', 'Object_Creation_date', 'Material', 'Dimensions', 'Essay', 'Essay_Author', 'Publication', 'Publication_PageNo', 'Publication_ImageNo')
+            'fields': ('Object_Name', 'Object_Type', 'Artist', 'ArtistAttributionCertainty', 'Artist_Attribution_Certainty_Numeric', 'Object_Description', 'Object_Creation_date', 'Material', 'Dimensions', 'Publication_Information')
+        }),
+        ('Essay',{
+            'fields': ('Essay', 'Essay_Author', 'Bibliography', 'Citation_Format')
         }),
         ('Collection Data and Provenance', {
-            'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Reported_Provenance01_Earliest', 'Reported_Provenance02', 'Reported_Provenance03', 'Reported_Provenance04', 'Reported_Provenance05', 'Reported_Provenance06')
+            'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Reported_Provenance_Earliest', 'Reported_Provenance_Additional')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
@@ -35,7 +38,7 @@ class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     filter_horizontal = ('ImageCreator_Name',)
     fieldsets = (
         (None, {
-            'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Objects_ID_No1', 'Objects_ID_No2', 'Objects_ID_No3', 'Image_Filename', 'stable_url', 'HaveImagePermissions_YesNo', 'Copyright_Permissions', 'Image_Creation_Date')
+            'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Creator_Attribution_Certainty_Numeric', 'Objects_ID_No1', 'Objects_ID_No2', 'Objects_ID_No3', 'Image_Filename', 'stable_url', 'HaveImagePermissions_YesNo', 'Copyright_Permissions', 'Image_Creation_Date')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
@@ -64,15 +67,15 @@ class Artists_CreatorsAdmin(admin.ModelAdmin):
 class PlacesAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('Place_Name', 'Latitude', 'Longitude', 'NGA_Place', 'NGA_Region', 'NGA_Country', 'Map_Place', 'Map_Country')
+            'fields': ('Map_Place_Name', 'Latitude', 'Longitude', 'NGA_Place_Name', 'NGA_Region', 'NGA_Country')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
             'fields': ('Place_Notes1',)
         }),
     )
-    list_display = ('Place_Name', 'Latitude', 'Longitude')
-    search_fields = ('Place_Name', 'NGA_Place', 'NGA_Region', 'NGA_Country', 'Map_Place', 'Map_Country')
+    list_display = ('Map_Place_Name', 'Latitude', 'Longitude')
+    search_fields = ('Map_Place_Name', 'NGA_Place_Name', 'NGA_Region', 'NGA_Country')
 
 
 class Object_Places_ReasonResource(resources.ModelResource):
@@ -88,7 +91,7 @@ class Objects_Places_ReasonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = Object_Places_ReasonResource
     fieldsets = (
         (None, {
-            'fields': ('Objects_Name', 'Related_Image', 'Places_Name', 'ReasonForPlace')
+            'fields': ('Objects_Name', 'Related_Image', 'Places_Name', 'ReasonForPlace', 'Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
@@ -96,7 +99,7 @@ class Objects_Places_ReasonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         }),
     )
     list_display = ('Objects_Name', 'Places_Name', 'ReasonForPlace')
-    search_fields = ('ReasonForPlace',)
+    search_fields = ('ReasonForPlace', 'Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric')
 
 #class Print_MapResource(resources.ModelResource):
 #    class Meta:
