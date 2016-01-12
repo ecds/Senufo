@@ -3,7 +3,7 @@ from import_export.admin import ImportExportModelAdmin
 from import_export import fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from django.contrib import admin
-from Senufo_App.models import Object_Records, Images, Artists_Creators, Places, Objects_Places_Reason
+from Senufo_App.models import Object_Records, Images, Artists_Creators, Places, Objects_Places_Reason, AdditionalPlaces, Provenance
 
 class Object_RecordsResource(resources.ModelResource):
     Artist = fields.Field(column_name='Artist', attribute='Artist', widget=ManyToManyWidget(Artists_Creators, ',', 'Artist_Name'))
@@ -11,6 +11,9 @@ class Object_RecordsResource(resources.ModelResource):
         model = Object_Records
         fields = ('Object_Name', 'Object_Type', 'Object_Description', 'Artist', 'ArtistAttributionCertainty', 'Essay', 'ResearchNotes1', 'ResearchNotes2',)
         export_order = ('Object_Name', 'Object_Type', 'Object_Description', 'Artist', 'ArtistAttributionCertainty', 'Essay', 'ResearchNotes1', 'ResearchNotes2',)
+
+class ProvenanceInline(admin.TabularInline):
+    model = Provenance
 
 class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     filter_horizontal = ('Artist',)
@@ -23,7 +26,7 @@ class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'fields': ('Essay', 'Essay_Author', 'Bibliography', 'Citation_Format')
         }),
         ('Collection Data and Provenance', {
-            'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Reported_Provenance_Earliest', 'Reported_Provenance_Additional')
+            'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Reported_Provenance_Earliest')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
@@ -31,6 +34,7 @@ class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         }),
     )
     list_display = ('Object_Name', 'Object_Type', 'Object_Description')
+    inlines = [ProvenanceInline,]
     search_fields = ('Object_Name', 'Object_Type', 'Object_Description', 'Essay', 'ResearchNotes1', 'ResearchNotes2')
 
     
@@ -63,6 +67,8 @@ class Artists_CreatorsAdmin(admin.ModelAdmin):
     list_display = ('Artist_Name', 'Information')
     search_fields = ('Artist_Name', 'Information', 'Artist_Notes1')
 
+class AdditionalPlacesInline(admin.TabularInline):
+    model = AdditionalPlaces     
 
 class PlacesAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -75,6 +81,7 @@ class PlacesAdmin(admin.ModelAdmin):
         }),
     )
     list_display = ('Map_Place_Name', 'Latitude', 'Longitude')
+    inlines = [AdditionalPlacesInline,]
     search_fields = ('Map_Place_Name', 'NGA_Place_Name', 'NGA_Region', 'NGA_Country')
 
 

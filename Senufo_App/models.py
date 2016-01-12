@@ -33,7 +33,6 @@ class Object_Records(models.Model):
     Collection_Information = models.CharField(max_length=500, blank=True, null=True)
     Other_Publications = models.CharField(max_length=500, blank=True, null=True)
     Reported_Provenance_Earliest = models.CharField(verbose_name='Provenance, Earliest Reported', max_length=500, blank=True, null=True)
-    Reported_Provenance_Additional = models.CharField(max_length=500, blank=True, null=True)
     ResearchNotes1 = models.TextField(blank=True, null=True)
     ResearchNotes2 = models.TextField(blank=True, null=True)
 
@@ -42,6 +41,16 @@ class Object_Records(models.Model):
         verbose_name_plural = 'Objects'
     def __unicode__(self):
         return u"%s" % (self.Object_Name)
+
+class Provenance(models.Model):
+    Additional_Reported_Provenance = models.CharField(max_length=500)
+    Provenance = models.ForeignKey(Object_Records, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Reported Provenance'
+        verbose_name_plural = 'Additional Reported Provenance'
+    def __unicode__(self):
+        return u"%s" % (self.Additional_Reported_Provenance)
 
 class Images(models.Model):
     Image_Name = models.CharField(max_length=500, blank=True, null=True)
@@ -64,7 +73,6 @@ class Images(models.Model):
     def __unicode__(self):
         return u"%s" % (self.Image_Name)
 
-
 class Places(models.Model):
     Places_id = models.AutoField(primary_key=True)
     Map_Place_Name = models.CharField(max_length=200, blank=True, null=True)
@@ -81,6 +89,15 @@ class Places(models.Model):
     def __unicode__(self):
         return u"%s" % (self.Map_Place_Name)
 
+class AdditionalPlaces(models.Model):
+    Additional_Place_Name = models.CharField(max_length=200)
+    NGA_Place_Name = models.ForeignKey(Places, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Additional Place Name or Spelling'
+        verbose_name_plural = 'Additional Place Names or Spellings'
+    def __unicode__(self):
+        return u"%s" % (self.Additional_Place_Name)
 
 class Objects_Places_Reason(models.Model):
     Reason_id = models.AutoField(primary_key=True)
