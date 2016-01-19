@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls), name="admin"),
     url(r'^Map_Print/$', views.map_working, name="Create CSV"),
     url(r'^tinymce/', include('tinymce.urls')),
+    url(r'^Map_Print_DrawingPhoto/$', views.map_working_drawingphoto, name="Create CSV 2"),
+    url(r'^Map_Print_Collection/$', views.map_working_collection, name="Create CSV 3"),
 ]

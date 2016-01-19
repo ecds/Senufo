@@ -105,7 +105,7 @@ class Objects_Places_Reason(models.Model):
     Objects_Name = models.ForeignKey('Object_Records', verbose_name="Object's Name", blank=True, null=True)
     Related_Image = models.ForeignKey('Images', blank=True, null=True)
     Places_Name = models.ForeignKey(Places, verbose_name="Place's Name", blank=True, null=True)
-    ReasonForPlace = models.CharField(max_length=200, blank=True, choices=(('Photograph', 'reported location of photograph'), ('Artist', 'location associated with attributed artist'), ('Drawing', 'location associated with drawing'), ('Collection', 'reported location of collection or acquisition')), null=True)
+    ReasonForPlace = models.CharField(max_length=200, blank=True, choices=(('Photograph', 'location associated with photograph'), ('Artist', 'location associated with attributed artist'), ('Drawing', 'location associated with drawing'), ('Collection', 'reported location of collection or acquisition')), null=True)
     Place_Attribution_Certainty = models.CharField(max_length=200, blank=True, null=True)
     Place_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     ObjectPlaceReason_Notes1 = models.TextField(blank=True, null=True)

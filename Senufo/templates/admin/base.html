@@ -39,7 +39,9 @@
                         <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
                     {% endif %}
                 {% endif %}
-                <a href="{% url 'Create CSV' %}">Download Map CSV File</a> /
+                <a href="{% url 'Create CSV' %}">Download Artist Map CSV File</a> /
+                <a href="{% url 'Create CSV 2' %}">Download Drawing-Photograph Map CSV File</a> /
+                <a href="{% url 'Create CSV 3' %}">Download Collection Map CSV File</a> /
                 {% if user.has_usable_password %}
                 <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
                 {% endif %}
