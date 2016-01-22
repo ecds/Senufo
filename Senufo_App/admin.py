@@ -42,7 +42,7 @@ class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     filter_horizontal = ('ImageCreator_Name',)
     fieldsets = (
         (None, {
-            'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Creator_Attribution_Certainty_Numeric', 'Objects_ID_No1', 'Objects_ID_No2', 'Objects_ID_No3', 'Image_Filename', 'stable_url', 'HaveImagePermissions_YesNo', 'Copyright_Permissions', 'Image_Creation_Date')
+            'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Creator_Attribution_Certainty_Numeric', 'Objects_ID_No1', 'Objects_ID_No2', 'Objects_ID_No3', 'Image_Filename', 'stable_url', 'HaveImagePermissions_YesNo', 'Copyright_Permissions', 'Image_Creation_Date', 'Photo_Credits')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),

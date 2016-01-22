@@ -63,8 +63,9 @@ class Images(models.Model):
     Image_Filename = models.CharField(max_length=200, blank=True, null=True)
     stable_url = models.CharField(max_length=200, blank=True, null=True)
     HaveImagePermissions_YesNo = models.CharField(max_length=15, verbose_name="Do we have Image Permissions? Y/N", blank=True, null=True)
-    Copyright_Permissions = models.CharField(max_length=500, blank=True, null=True)
+    Copyright_Permissions = HTMLField(blank=True, null=True)
     Image_Creation_Date = models.CharField(max_length=45, blank=True, null=True)
+    Photo_Credits = HTMLField(blank=True, null=True)
     Image_Notes1 = models.TextField(blank=True, null=True)
     
     class Meta:
