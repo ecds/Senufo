@@ -3,14 +3,14 @@ from import_export.admin import ImportExportModelAdmin
 from import_export import fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from django.contrib import admin
-from Senufo_App.models import Object_Records, Images, Artists_Creators, Places, Objects_Places_Reason, AdditionalPlaces, Provenance
+from Senufo_App.models import Object_Records, Images, Essays, Artists_Creators, Places, Objects_Places_Reason, ReasonForPlace, AdditionalPlaces, Provenance
 
 class Object_RecordsResource(resources.ModelResource):
     Artist = fields.Field(column_name='Artist', attribute='Artist', widget=ManyToManyWidget(Artists_Creators, ',', 'Artist_Name'))
     class Meta:
         model = Object_Records
-        fields = ('Object_Name', 'Object_Type', 'Object_Description', 'Artist', 'ArtistAttributionCertainty', 'Essay', 'ResearchNotes1', 'ResearchNotes2',)
-        export_order = ('Object_Name', 'Object_Type', 'Object_Description', 'Artist', 'ArtistAttributionCertainty', 'Essay', 'ResearchNotes1', 'ResearchNotes2',)
+        fields = ('Object_Name', 'Object_Type', 'Object_Description', 'Artist', 'ArtistAttributionCertainty', 'ResearchNotes1', 'ResearchNotes2',)
+        export_order = ('Object_Name', 'Object_Type', 'Object_Description', 'Artist', 'ArtistAttributionCertainty', 'ResearchNotes1', 'ResearchNotes2',)
 
 class ProvenanceInline(admin.TabularInline):
     model = Provenance
@@ -22,9 +22,6 @@ class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         (None, {
             'fields': ('Object_Name', 'Object_Type', 'Artist', 'ArtistAttributionCertainty', 'Artist_Attribution_Certainty_Numeric', 'Object_Description', 'Object_Creation_date', 'Material', 'Dimensions', 'Publication_Information')
         }),
-        ('Essay',{
-            'fields': ('Essay', 'Essay_Author', 'Bibliography', 'Citation_Format')
-        }),
         ('Collection Data and Provenance', {
             'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Reported_Provenance_Earliest')
         }),
@@ -35,14 +32,17 @@ class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     )
     list_display = ('Object_Name', 'Object_Type', 'Object_Description')
     inlines = [ProvenanceInline,]
-    search_fields = ('Object_Name', 'Object_Type', 'Object_Description', 'Essay', 'ResearchNotes1', 'ResearchNotes2')
+    search_fields = ('Object_Name', 'Object_Type', 'Object_Description', 'ResearchNotes1', 'ResearchNotes2', 'Material')
 
     
 class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     filter_horizontal = ('ImageCreator_Name',)
     fieldsets = (
         (None, {
-            'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Creator_Attribution_Certainty_Numeric', 'Objects_ID_No1', 'Objects_ID_No2', 'Objects_ID_No3', 'Image_Filename', 'stable_url', 'HaveImagePermissions_YesNo', 'Copyright_Permissions', 'Image_Creation_Date', 'Photo_Credits')
+            'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Creator_Attribution_Certainty_Numeric', 'Objects_ID', 'Image_Filename', 'stable_url', 'Image_Creation_Date', 'Photo_Credits')
+        }),
+        ('Copyright and Permissions', {
+            'fields': ('HaveImagePermissions_YesNo', 'Copyright_Permissions', 'Contact_Address_for_Copyright')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
@@ -52,20 +52,21 @@ class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions')
     search_fields = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions')
 
-
+class EssaysAdmin(admin.ModelAdmin):
+    search_fields = ('Essay_Author', 'Essay')
 
 class Artists_CreatorsAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('Artist_Name', 'Information')
+            'fields': ('Artist_Name', 'Place_of_Birth', 'Place_Active', 'Dates_Active', 'Information')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
             'fields': ('Artist_Notes1',)
         }),
     )
-    list_display = ('Artist_Name', 'Information')
-    search_fields = ('Artist_Name', 'Information', 'Artist_Notes1')
+    list_display = ('Artist_Name', 'Place_of_Birth', 'Place_Active', 'Information')
+    search_fields = ('Artist_Name', 'Place_of_Birth', 'Place_Active', 'Information', 'Dates_Active', 'Artist_Notes1')
 
 class AdditionalPlacesInline(admin.TabularInline):
     model = AdditionalPlaces     
@@ -73,7 +74,7 @@ class AdditionalPlacesInline(admin.TabularInline):
 class PlacesAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('Map_Place_Name', 'Latitude', 'Longitude', 'NGA_Place_Name', 'NGA_Region', 'NGA_Country')
+            'fields': ('Map_Place_Name', 'Map_Place_Type', 'Latitude', 'Longitude', 'NGA_Place_Name', 'Local_Region_Name', 'NGA_Administrative_Division', 'NGA_Country')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
@@ -82,7 +83,7 @@ class PlacesAdmin(admin.ModelAdmin):
     )
     list_display = ('Map_Place_Name', 'Latitude', 'Longitude')
     inlines = [AdditionalPlacesInline,]
-    search_fields = ('Map_Place_Name', 'NGA_Place_Name', 'NGA_Region', 'NGA_Country')
+    search_fields = ('Map_Place_Name', 'NGA_Place_Name', 'Local_Region_Name', 'NGA_Administrative_Division', 'NGA_Country')
 
 
 class Object_Places_ReasonResource(resources.ModelResource):
@@ -124,5 +125,7 @@ admin.site.register(Images, ImagesAdmin)
 admin.site.register(Artists_Creators, Artists_CreatorsAdmin)
 admin.site.register(Places, PlacesAdmin)
 admin.site.register(Objects_Places_Reason, Objects_Places_ReasonAdmin)
+admin.site.register(Essays, EssaysAdmin)
+admin.site.register(ReasonForPlace)
 #admin.site.register(GetDATAclass)
 #admin.site.register(Print_Map, Print_MapAdmin)
