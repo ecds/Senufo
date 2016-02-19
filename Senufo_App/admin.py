@@ -23,7 +23,7 @@ class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'fields': ('Object_Name', 'Object_Type', 'Artist', 'ArtistAttributionCertainty', 'Artist_Attribution_Certainty_Numeric', 'Object_Description', 'Object_Creation_date', 'Material', 'Dimensions', 'Publication_Information')
         }),
         ('Collection Data and Provenance', {
-            'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Reported_Provenance_Earliest')
+            'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications')
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
@@ -36,7 +36,7 @@ class Object_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
     
 class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    filter_horizontal = ('ImageCreator_Name',)
+    filter_horizontal = ('ImageCreator_Name', 'Objects_ID')
     fieldsets = (
         (None, {
             'fields': ('Image_Name', 'ImageCreator_Name', 'CreatorAttributionCertainty', 'Creator_Attribution_Certainty_Numeric', 'Objects_ID', 'Image_Filename', 'stable_url', 'Image_Creation_Date', 'Photo_Credits')
@@ -54,6 +54,7 @@ class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 class EssaysAdmin(admin.ModelAdmin):
     search_fields = ('Essay_Author', 'Essay')
+    filter_horizontal = ('Related_Objects','Related_Images')
 
 class Artists_CreatorsAdmin(admin.ModelAdmin):
     fieldsets = (
