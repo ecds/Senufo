@@ -20,7 +20,7 @@ class Work_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = Work_RecordsResource
     fieldsets = (
         (None, {
-            'fields': ('Work_Name', 'Work_Type', 'Author', 'AuthorAttributionCertainty', 'Author_Attribution_Certainty_Numeric', 'Object_Description', 'Object_Creation_date', 'Material', 'Dimensions', 'Publication_Information')
+            'fields': ('Work_Name', 'Work_Type', 'Author', 'AuthorAttributionCertainty', 'Author_Attribution_Certainty_Numeric', 'Description', 'Work_Creation_date', 'Work_Creation_date_numeric', 'Material', 'Dimensions', 'Publication_Information')
         }),
         ('Collection Data and Provenance', {
             'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications')
@@ -33,9 +33,9 @@ class Work_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'fields': ('ResearchNotes1', 'ResearchNotes2', 'Reported_field_acquisition_notes')
         }),
     )
-    list_display = ('Work_Name', 'Work_Type', 'Object_Description')
+    list_display = ('Work_Name', 'Work_Type', 'Description')
     inlines = [ProvenanceInline,]
-    search_fields = ('Work_Name', 'Work_Type', 'Object_Description', 'ResearchNotes1', 'ResearchNotes2', 'Material')
+    search_fields = ('Work_Name', 'Work_Type', 'Description', 'ResearchNotes1', 'ResearchNotes2', 'Material')
 
     
 class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
@@ -52,7 +52,7 @@ class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'fields': ('Image_Notes1','Image_Notes2','Image_Permissions_Notes')
         }),
     )
-    list_display = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions')
+    list_display = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions_html')
     search_fields = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions')
 
 class EssaysAdmin(admin.ModelAdmin):
@@ -107,7 +107,7 @@ class Objects_Places_ReasonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         }),
         ('Notes for Research', {
             'classes': ('collapse',),
-            'fields': ('ObjectPlaceReason_Notes1',)
+            'fields': ('WorkPlaceReason_Notes1',)
         }),
     )
     list_display = ('Objects_Name', 'Places_Name', 'ReasonForPlace')

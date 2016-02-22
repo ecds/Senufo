@@ -1,5 +1,6 @@
 from django.db import connection, models
 from tinymce.models import HTMLField
+from django.utils.html import format_html
 
 class Authors(models.Model):
     Author_Name = models.CharField(max_length=200, verbose_name="Author's Name", blank=True, null=True)
@@ -23,9 +24,10 @@ class Work_Records(models.Model):
     Author = models.ManyToManyField(Authors, blank=True)
     AuthorAttributionCertainty = models.CharField(verbose_name="Author Attribution Certainty", max_length=200, blank=True, null=True)
     Author_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    Object_Description = models.TextField(verbose_name="Description of Work", blank=True, null=True)
-    Object_Creation_date = models.CharField(verbose_name="Work Creation Date", max_length=45, blank=True, null=True)
-    Material = models.CharField(max_length=200, blank=True, null=True)
+    Description = models.TextField(verbose_name="Description of Work", blank=True, null=True)
+    Work_Creation_date = models.CharField(verbose_name="Work Creation Date", max_length=45, blank=True, null=True)
+    Work_Creation_date_numeric = models.IntegerField(blank=True, null=True)
+    Material = models.CharField(max_length=200, blank=True, null=True, help_text="Material(s) identified, based on Getty vocabulary.")
     Dimensions = models.CharField(max_length=200, blank=True, null=True)
     Publication_Information = HTMLField(blank=True, null=True, verbose_name="Selected Publication History")
     Collection_Name = models.CharField(max_length=200, blank=True, null=True)
@@ -70,7 +72,7 @@ class Images(models.Model):
     Author_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     Works_ID = models.ManyToManyField('Work_Records', verbose_name="Related Works", related_name='ImageObject1', blank=True)
     Image_Filename = models.CharField(max_length=200, blank=True, null=True)
-    stable_url = models.CharField(max_length=200, blank=True, null=True)
+    stable_url = models.URLField(max_length=200, blank=True, null=True)
     HaveImagePermissions_YesNo = models.CharField(max_length=15, verbose_name="Do we have Image Permissions? Y/N", blank=True, null=True)
     Copyright_Permissions = HTMLField(blank=True, null=True, help_text="Describe our permissions.")
     Contact_Information_for_Copyright = HTMLField(blank=True, null=True, help_text="List the name, mailing address, e-mail address, telephone number, or other contact information for the identified rights holder.")
@@ -87,6 +89,8 @@ class Images(models.Model):
         verbose_name_plural = 'Images'
     def __unicode__(self):
         return u"%s" % (self.Image_Name)
+    def Copyright_Permissions_html(self):
+        return format_html(self.Copyright_Permissions)
 
 class Places(models.Model):
     Places_id = models.AutoField(primary_key=True)
@@ -128,7 +132,7 @@ class Objects_Places_Reason(models.Model):
     ReasonForPlace = models.CharField(max_length=200, blank=True, null=True, verbose_name="Reason for Work-Place Association", choices=(('Artist', 'Artist'), ('Photograph', 'Photograph'), ('Drawing', 'Drawing'), ('Collection', 'Collection or Acquisition')))
     Place_Attribution_Certainty = models.CharField(max_length=200, blank=True, null=True)
     Place_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    ObjectPlaceReason_Notes1 = models.TextField(verbose_name="Work Location Reason Notes", blank=True, null=True)
+    WorkPlaceReason_Notes1 = models.TextField(verbose_name="Work Location Reason Notes", blank=True, null=True)
     
     class Meta:
         verbose_name = 'Reasons for Mapped Work Locations'
@@ -142,7 +146,7 @@ class Essays(models.Model):
 #    Essay_Date = models.CharField(max_length=100, blank=True, null=True)
 #    Bibliography = HTMLField(blank=True, null=True)
     Essay_URL = models.URLField(max_length=200, blank=True, null=True)
-    Citation_Format = models.CharField(max_length=200, blank=True, null=True)
+    Citation_Format = models.CharField(max_length=200, blank=True, null=True, help_text="How to cite this essay.")
     Related_Works = models.ManyToManyField(Work_Records, related_name='EssayObjects', blank=True)
     Related_Images = models.ManyToManyField(Images, related_name='EssayImages', blank=True)
 

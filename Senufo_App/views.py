@@ -23,13 +23,18 @@ from Senufo_App.models import Work_Records, Images, Authors, Places, Objects_Pla
 
 
 def map_working(request):
-    PlaceLocations = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Work_Name', 'Objects_Name__Object_Description', 'Objects_Name__Author__Author_Name', 'Objects_Name__AuthorAttributionCertainty', 'Objects_Name__Object_Creation_date', 'Related_Image__Image_Name', 'Related_Image__ImageAuthor_Name__Author_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude').filter(ReasonForPlace='Artist')
+    PlaceLocations = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Work_Name', 'Objects_Name__Description', 'Objects_Name__Author__Author_Name', 'Objects_Name__AuthorAttributionCertainty', 'Objects_Name__Work_Creation_date', 'Related_Image__Image_Name', 'Related_Image__ImageAuthor_Name__Author_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude').filter(ReasonForPlace='Artist')
     return render_to_csv_response(PlaceLocations)
 
 def map_working_drawingphoto(request):
-    PlaceLocationDrawingPhoto = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Work_Name', 'Objects_Name__Object_Description', 'Objects_Name__Author__Author_Name', 'Objects_Name__AuthorAttributionCertainty', 'Objects_Name__Object_Creation_date', 'Related_Image__Image_Name', 'Related_Image__ImageAuthor_Name__Author_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude').filter(Q(ReasonForPlace='Photograph') | Q(ReasonForPlace='Drawing'))
+    PlaceLocationDrawingPhoto = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Work_Name', 'Objects_Name__Description', 'Objects_Name__Author__Author_Name', 'Objects_Name__AuthorAttributionCertainty', 'Objects_Name__Work_Creation_date', 'Related_Image__Image_Name', 'Related_Image__ImageAuthor_Name__Author_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude').filter(Q(ReasonForPlace='Photograph') | Q(ReasonForPlace='Drawing'))
     return render_to_csv_response(PlaceLocationDrawingPhoto)
 
 def map_working_collection(request):
-    PlaceLocationCollection = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Work_Name', 'Objects_Name__Object_Description', 'Objects_Name__Author__Author_Name', 'Objects_Name__AuthorAttributionCertainty', 'Objects_Name__Object_Creation_date', 'Related_Image__Image_Name', 'Related_Image__ImageAuthor_Name__Author_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude').filter(ReasonForPlace='Collection')
+    PlaceLocationCollection = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Work_Name', 'Objects_Name__Description', 'Objects_Name__Author__Author_Name', 'Objects_Name__AuthorAttributionCertainty', 'Objects_Name__Work_Creation_date', 'Related_Image__Image_Name', 'Related_Image__ImageAuthor_Name__Author_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude').filter(ReasonForPlace='Collection')
     return render_to_csv_response(PlaceLocationCollection)
+
+# Still working on this.
+def mapped_work_page_view(request):
+    WorkPageInformation = Objects_Places_Reason.objects.values('Reason_id', 'Objects_Name__Work_Name', 'Objects_Name__Description', 'Objects_Name__Author__Author_Name', 'Objects_Name__AuthorAttributionCertainty', 'Objects_Name__Work_Creation_date')
+    return render_to_csv_response(WorkPageInformation)
