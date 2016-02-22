@@ -36,5 +36,5 @@ def map_working_collection(request):
 
 # Still working on this.
 def mapped_work_page_view(request):
-    WorkPageInformation = Objects_Places_Reason.objects.values('Reason_id', 'Objects_Name__Work_Name', 'Objects_Name__Description', 'Objects_Name__Author__Author_Name', 'Objects_Name__AuthorAttributionCertainty', 'Objects_Name__Work_Creation_date')
+    WorkPageInformation = Objects_Places_Reason.objects.values('Reason_id', 'Objects_Name__Work_Name', 'Objects_Name__Description', 'Objects_Name__Author__Author_Name', 'Objects_Name__AuthorAttributionCertainty', 'Objects_Name__Work_Creation_date', 'Objects_Name__Publication_Information', 'Objects_Name__Collection_Name', 'Objects_Name__Collection_Number', 'Objects_Name__Reported_field_acquisition_name', 'Objects_Name__Reported_field_acquisition_location__Map_Place_Name', 'Objects_Name__Reported_field_acquisition_date', 'Related_Image__ImageAuthor_Name__Author_Name')
     return render_to_csv_response(WorkPageInformation)
