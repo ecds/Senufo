@@ -23,13 +23,13 @@ from Senufo_App.models import Object_Records, Images, Artists_Creators, Places, 
 
 
 def map_working(request):
-    PlaceLocations = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Object_Name', 'Objects_Name__Object_Description', 'Objects_Name__Artist__Artist_Name', 'Related_Image__Image_Name', 'Related_Image__ImageCreator_Name__Artist_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude').filter(ReasonForPlace='Artist')
+    PlaceLocations = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Object_Name', 'Objects_Name__Object_Description', 'Objects_Name__Artist__Artist_Name', 'Related_Image__Image_Name', 'Related_Image__ImageCreator_Name__Artist_Name', 'Related_Image__ImageCreator_Name__Artist_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude')
     return render_to_csv_response(PlaceLocations)
 
 def map_working_drawingphoto(request):
-    PlaceLocationDrawingPhoto = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Object_Name', 'Objects_Name__Object_Description', 'Objects_Name__Artist__Artist_Name', 'Related_Image__Image_Name', 'Related_Image__ImageCreator_Name__Artist_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude').filter(Q(ReasonForPlace='Photograph') | Q(ReasonForPlace='Drawing'))
+    PlaceLocationDrawingPhoto = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Object_Name', 'Objects_Name__Object_Description', 'Objects_Name__Artist__Artist_Name', 'Related_Image__Image_Name', 'Related_Image__ImageCreator_Name__Artist_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude')
     return render_to_csv_response(PlaceLocationDrawingPhoto)
 
 def map_working_collection(request):
-    PlaceLocationCollection = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Object_Name', 'Objects_Name__Object_Description', 'Objects_Name__Artist__Artist_Name', 'Related_Image__Image_Name', 'Related_Image__ImageCreator_Name__Artist_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude').filter(ReasonForPlace='Collection')
+    PlaceLocationCollection = Objects_Places_Reason.objects.values('Reason_id', 'ReasonForPlace', 'Objects_Name__Object_Name', 'Objects_Name__Object_Description', 'Objects_Name__Artist__Artist_Name', 'Related_Image__Image_Name', 'Related_Image__ImageCreator_Name__Artist_Name', 'Related_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude')
     return render_to_csv_response(PlaceLocationCollection)
