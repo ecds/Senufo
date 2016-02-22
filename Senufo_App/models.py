@@ -1,71 +1,87 @@
 from django.db import connection, models
 from tinymce.models import HTMLField
 
-class Artists_Creators(models.Model):
-    Artist_Name = models.CharField(max_length=200, verbose_name="Artist's Name", blank=True, null=True)
+class Authors(models.Model):
+    Author_Name = models.CharField(max_length=200, verbose_name="Author's Name", blank=True, null=True)
     Place_of_Birth = models.CharField(max_length=200, blank=True, null=True)
     Place_Active = models.TextField(blank=True, null=True)
     Dates_Active = models.CharField(max_length=200, blank=True, null=True)
-    Information = models.TextField(blank=True, null=True)
-    Artist_Notes1 = models.TextField(blank=True, null=True)
+    Bio_Information = models.TextField(blank=True, null=True, help_text="Additional biographical information")
+    Author_Notes1 = models.TextField(blank=True, null=True)
+    Author_Notes2 = models.TextField(blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Artists and Creators'
-        verbose_name_plural = 'Artists and Creators'
+        verbose_name = 'Authors'
+        verbose_name_plural = 'Authors'
     def __unicode__(self):
-        return u"%s" % (self.Artist_Name)
+        return u"%s" % (self.Author_Name)
 
-class Object_Records(models.Model):
+class Work_Records(models.Model):
     Object_id = models.AutoField(primary_key=True)
-    Object_Name = models.CharField(max_length=200, blank=True, null=True)
-    Object_Type = models.CharField(max_length=45, blank=True, null=True)
-    Artist = models.ManyToManyField(Artists_Creators, blank=True)
-    ArtistAttributionCertainty = models.CharField(verbose_name="Artist Attribution Certainty", max_length=200, blank=True, null=True)
-    Artist_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    Object_Description = models.TextField(blank=True, null=True)
-    Object_Creation_date = models.CharField(max_length=45, blank=True, null=True)
+    Work_Name = models.CharField(max_length=200, blank=True, null=True)
+    Work_Type = models.CharField(max_length=45, blank=True, null=True, choices=(('Sculpture', 'Sculpture'),('Photograph', 'Photograph'),('PlaceHolder', 'Place Holder')))
+    Author = models.ManyToManyField(Authors, blank=True)
+    AuthorAttributionCertainty = models.CharField(verbose_name="Author Attribution Certainty", max_length=200, blank=True, null=True)
+    Author_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    Object_Description = models.TextField(verbose_name="Description of Work", blank=True, null=True)
+    Object_Creation_date = models.CharField(verbose_name="Work Creation Date", max_length=45, blank=True, null=True)
     Material = models.CharField(max_length=200, blank=True, null=True)
     Dimensions = models.CharField(max_length=200, blank=True, null=True)
-    Publication_Information = HTMLField(blank=True, null=True)
+    Publication_Information = HTMLField(blank=True, null=True, verbose_name="Selected Publication History")
     Collection_Name = models.CharField(max_length=200, blank=True, null=True)
     Collection_Number = models.CharField(max_length=200, blank=True, null=True)
-    Collection_Information = models.CharField(max_length=500, blank=True, null=True)
+    Collection_Information = models.CharField(max_length=255, blank=True, null=True)
     Other_Publications = models.TextField(blank=True, null=True)
+    Reported_field_acquisition_name = models.CharField(max_length=255, blank=True, null=True)
+    Reported_field_acquisition_location = models.ForeignKey('Places', blank=True, null=True)
+    Reported_field_acquisition_date = models.CharField(max_length=255, blank=True, null=True)
+    Reported_field_acquisition_date_numeric = models.IntegerField(blank=True, null=True)
+    Reported_field_acquisition_certainty_notes = models.CharField(max_length=255, blank=True, null=True)
+    Reported_field_acquisition_certainty_numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    Reported_field_acquisition_notes = models.TextField(blank=True, null=True)
     ResearchNotes1 = models.TextField(blank=True, null=True)
     ResearchNotes2 = models.TextField(blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Objects'
-        verbose_name_plural = 'Objects'
+        verbose_name = 'Works'
+        verbose_name_plural = 'Works'
     def __unicode__(self):
-        return u"%s" % (self.Object_Name)
+        return u"%s" % (self.Work_Name)
 
 class Provenance(models.Model):
-    Reported_Provenance = models.CharField(max_length=500)
-    Provenance_Order = models.CharField(max_length=200, help_text="Earliest, second...?")
-    Provenance = models.ForeignKey(Object_Records, blank=True, null=True)
+    Reported_Provenance_name = models.CharField(max_length=500, help_text="Name of person or entity")
+    Reported_Provenance_location = models.ForeignKey('Places', related_name="ProvLoc", blank=True, null=True)
+    Reported_Provenance_date = models.CharField(max_length=500,blank=True, null=True)
+    Reported_Provenance_start_date_numeric = models.IntegerField(blank=True, null=True)
+    Provenance_Order = models.CharField(max_length=200, help_text="Earliest, second...?", blank=True, null=True)
+    Reported_Provenance_notes = models.CharField(max_length=500, blank=True, null=True)
+    Provenance = models.ForeignKey(Work_Records, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Reported Provenance'
         verbose_name_plural = 'Additional Reported Provenance'
     def __unicode__(self):
-        return u"%s" % (self.Additional_Reported_Provenance)
+        return u"%s" % (self.Reported_Provenance_name)
 
 class Images(models.Model):
     Image_Name = models.CharField(max_length=500, blank=True, null=True)
-    ImageCreator_Name = models.ManyToManyField(Artists_Creators, verbose_name="Image Creator's Name", blank=True)
-    CreatorAttributionCertainty = models.CharField(verbose_name="Creator Attribution Certainty", max_length=200, blank=True, null=True)
-    Creator_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    Objects_ID = models.ManyToManyField('Object_Records', related_name='ImageObject1', blank=True)
+    ImageAuthor_Name = models.ManyToManyField(Authors, verbose_name="Image Credits", help_text="Credited with Authorship of Image.", blank=True)
+    AuthorAttributionCertainty = models.CharField(verbose_name="Attribution Certainty of Author Credited with Image", max_length=200, blank=True, null=True)
+    Author_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    Works_ID = models.ManyToManyField('Work_Records', verbose_name="Related Works", related_name='ImageObject1', blank=True)
     Image_Filename = models.CharField(max_length=200, blank=True, null=True)
     stable_url = models.CharField(max_length=200, blank=True, null=True)
     HaveImagePermissions_YesNo = models.CharField(max_length=15, verbose_name="Do we have Image Permissions? Y/N", blank=True, null=True)
-    Copyright_Permissions = HTMLField(blank=True, null=True)
-    Contact_Address_for_Copyright = HTMLField(blank=True, null=True)
+    Copyright_Permissions = HTMLField(blank=True, null=True, help_text="Describe our permissions.")
+    Contact_Information_for_Copyright = HTMLField(blank=True, null=True, help_text="List the name, mailing address, e-mail address, telephone number, or other contact information for the identified rights holder.")
     Image_Creation_Date = models.CharField(max_length=45, blank=True, null=True)
     Photo_Credits = HTMLField(blank=True, null=True)
+    Permissions_Correspondence_Date = models.CharField(max_length=200, blank=True, null=True, help_text="Date(s) of correspondence requesting image permissions.")
+    Received_image_permission_date = models.CharField(max_length=200, blank=True, null=True)
     Image_Notes1 = models.TextField(blank=True, null=True)
-    
+    Image_Notes2 = models.TextField(blank=True, null=True)
+    Image_Permissions_Notes = models.TextField(blank=True, null=True)
+        
     class Meta:
         verbose_name = 'Images'
         verbose_name_plural = 'Images'
@@ -74,14 +90,14 @@ class Images(models.Model):
 
 class Places(models.Model):
     Places_id = models.AutoField(primary_key=True)
-    Map_Place_Name = models.CharField(max_length=200, blank=True, null=True)
-    Map_Place_Type = models.CharField(max_length=200, blank=True, null=True, help_text="City, Region, Admin Division, or Country?")
-    Latitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True)
-    Longitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True)
+    Map_Place_Name = models.CharField(max_length=200, verbose_name="Location Name", blank=True, null=True)
+    Location_point_or_region = models.CharField(max_length=200, blank=True, null=True, help_text="Is this a point (city) or a region (polygon)?")
+    Location_point_or_region_notes = models.TextField(blank=True, null=True, help_text="Scholarly region? Local term?")
+    Latitude = models.DecimalField(max_digits=8, decimal_places=6, help_text="Decimal", blank=True, null=True)
+    Longitude = models.DecimalField(max_digits=8, decimal_places=6, help_text="Decimal", blank=True, null=True)
     NGA_Place_Name = models.CharField(max_length=100, blank=True, null=True)
-    Local_Region_Name = models.CharField(max_length=50, blank=True, null=True)
     NGA_Administrative_Division = models.CharField(max_length=50, blank=True, null=True)
-    NGA_Country = models.CharField(max_length=50, blank=True, null=True, help_text="Geopolitical Entity Name")
+    NGA_Country = models.CharField(max_length=50, blank=True, null=True, verbose_name="Geopolitical Entity Name", help_text="Country")
     Place_Notes1 = models.TextField(blank=True, null=True)
     
     class Meta:
@@ -101,39 +117,40 @@ class AdditionalPlaces(models.Model):
     def __unicode__(self):
         return u"%s" % (self.Alternate_Place_Name)
 
-class ReasonForPlace(models.Model):
-    ReasonForPlace = models.CharField(max_length=200, blank=True, null=True)
+#class ReasonForPlace(models.Model):
+#    ReasonForPlace = models.CharField(max_length=200, blank=True, null=True)
 
 class Objects_Places_Reason(models.Model):
     Reason_id = models.AutoField(primary_key=True)
-    Objects_Name = models.ForeignKey('Object_Records', verbose_name="Object's Name", blank=True, null=True)
+    Objects_Name = models.ForeignKey('Work_Records', verbose_name="Work's Name", blank=True, null=True)
     Related_Image = models.ForeignKey('Images', blank=True, null=True)
     Places_Name = models.ForeignKey(Places, verbose_name="Place's Name", blank=True, null=True)
-    ReasonForPlace = models.ForeignKey('ReasonForPlace', blank=True, null=True)
+    ReasonForPlace = models.CharField(max_length=200, blank=True, null=True, verbose_name="Reason for Work-Place Association", choices=(('Artist', 'Artist'), ('Photograph', 'Photograph'), ('Drawing', 'Drawing'), ('Collection', 'Collection or Acquisition')))
     Place_Attribution_Certainty = models.CharField(max_length=200, blank=True, null=True)
     Place_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    ObjectPlaceReason_Notes1 = models.TextField(blank=True, null=True)
+    ObjectPlaceReason_Notes1 = models.TextField(verbose_name="Work Location Reason Notes", blank=True, null=True)
     
     class Meta:
-        verbose_name = 'Object Locations and Reasons for them'
-        verbose_name_plural = 'Object Locations and Reasons for them'
+        verbose_name = 'Reasons for Mapped Work Locations'
+        verbose_name_plural = 'Reasons for Mapped Work Locations'
     def __unicode__(self):
         return u"%s, %s" % (self.Objects_Name, self.Places_Name)
 
 class Essays(models.Model):
-    Essay = HTMLField(blank=True, null=True)
-    Essay_Author = models.CharField(max_length=200, blank=True, null=True)
-    Essay_Date = models.CharField(max_length=100, blank=True, null=True)
-    Bibliography = HTMLField(blank=True, null=True)
+#    Essay = HTMLField(blank=True, null=True)
+#    Essay_Author = models.CharField(max_length=200, blank=True, null=True)
+#    Essay_Date = models.CharField(max_length=100, blank=True, null=True)
+#    Bibliography = HTMLField(blank=True, null=True)
+    Essay_URL = models.URLField(max_length=200, blank=True, null=True)
     Citation_Format = models.CharField(max_length=200, blank=True, null=True)
-    Related_Objects = models.ManyToManyField(Object_Records, related_name='EssayObjects', blank=True)
+    Related_Works = models.ManyToManyField(Work_Records, related_name='EssayObjects', blank=True)
     Related_Images = models.ManyToManyField(Images, related_name='EssayImages', blank=True)
 
     class Meta:
         verbose_name = 'Essay'
         verbose_name_plural = 'Essays'
     def __unicode__(self):
-        return u"%s, %s" % (self.Essay_Author, self.Essay_Date)
+        return u"%s, %s" % (self.Citation_Format, self.Essay_URL)
 
 
 #class PrintObjectPlace(models.Model):
