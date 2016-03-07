@@ -124,6 +124,14 @@ class AdditionalPlaces(models.Model):
 #class ReasonForPlace(models.Model):
 #    ReasonForPlace = models.CharField(max_length=200, blank=True, null=True)
 
+#class Objects_Places_ReasonManager(models.Manager):
+#    def SQL(self):
+#        cursor = connection.cursor()
+
+#        cursor.execute("CREATE VIEW `wordpress_page_view` AS SELECT `senufo_app_objects_places_reason`.`Reason_id` AS `Reason_id`, `senufo_app_work_records`.`Description` AS `Description`, `senufo_app_work_records`.`Work_Creation_date` AS `Date`, `senufo_app_places`.`Map_Place_Name` AS `Map_Place_Name`, `senufo_app_objects_places_reason`.`ReasonForPlace` AS `ReasonForPlace`, `senufo_app_work_records`.`Collection_Name` AS `Collection_Name`, `senufo_app_work_records`.`Collection_Number` AS `Collection_Number`, `senufo_app_images`.`Image_Filename` AS `Image_Filename`, GROUP_CONCAT(DISTINCT `senufo_app_authors`.`Author_Name` SEPARATOR ',') AS `Image_Credits`, `senufo_app_work_records`.`Reported_field_acquisition_name` AS `Reported_field_acquisition_name`, `senufo_app_places2`.`Map_Place_Name` AS `Reported_field_location`, `senufo_app_work_records`.`Reported_field_acquisition_date` AS `Reported_field_acquisition_date`, GROUP_CONCAT(DISTINCT `senufo_app_provenance`.`Reported_Provenance_name` SEPARATOR ',') AS `Reported_Provenance_name`, GROUP_CONCAT(DISTINCT `senufo_app_places3`.`Map_Place_Name` SEPARATOR ',') AS `Reported_Provenance_location`, GROUP_CONCAT(DISTINCT `senufo_app_provenance`.`Reported_Provenance_date` SEPARATOR ',') AS `Reported_Provenance_date`, `senufo_app_work_records`.`Publication_Information` AS `Selected_Publication_History`, GROUP_CONCAT(DISTINCT `senufo_app_essays`.`Essay_Title` SEPARATOR ',') AS `Essay_Title`, GROUP_CONCAT(DISTINCT `senufo_app_essays`.`Essay_Author` SEPARATOR ',') AS `Essay_Author`, GROUP_CONCAT(DISTINCT `senufo_app_essays`.`Essay_URL` SEPARATOR ',') AS `Essay_URL`, GROUP_CONCAT(DISTINCT `senufo_app_essays`.`Citation_Format` SEPARATOR ',') AS `Citation_Format`, GROUP_CONCAT(DISTINCT `senufo_app_images2`.`Image_Filename` SEPARATOR ',') AS `Related_Images`    FROM(((((((((((((`senufo_app_objects_places_reason` LEFT JOIN `senufo_app_work_records` ON ((`senufo_app_objects_places_reason`.`Objects_Name_id` = `senufo_app_work_records`.`Object_id`)) LEFT JOIN `senufo_app_provenance` ON ((`senufo_app_work_records`.`Object_id` = `senufo_app_provenance`.`Provenance_id`))) LEFT JOIN `senufo_app_images` ON ((`senufo_app_objects_places_reason`.`Related_Image_id` = `senufo_app_images`.`id`))) LEFT JOIN `senufo_app_places` ON ((`senufo_app_objects_places_reason`.`Places_Name_id` = `senufo_app_places`.`Places_id`))) LEFT JOIN `senufo_app_additionalplaces` ON ((`senufo_app_places`.`Places_id` = `senufo_app_additionalplaces`.`NGA_Place_Name_id`))) LEFT JOIN `senufo_app_essays_related_works` ON ((`senufo_app_work_records`.`Object_id` = `senufo_app_essays_related_works`.`work_records_id`))) LEFT JOIN `senufo_app_essays` ON ((`senufo_app_essays_related_works`.`essays_id` = `senufo_app_essays`.`id`))) LEFT JOIN `senufo_app_images_imageauthor_name` ON ((`senufo_app_images`.`id` = `senufo_app_images_imageauthor_name`.`images_id`))) LEFT JOIN `senufo_app_authors` ON ((`senufo_app_images_imageauthor_name`.`authors_id` = `senufo_app_authors`.`id`))) LEFT JOIN `senufo_app_places` `senufo_app_places2` ON ((`senufo_app_work_records`.`Reported_field_acquisition_location_id` = `senufo_app_places2`.`Places_id`))) LEFT JOIN `senufo_app_places` `senufo_app_places3` ON ((`senufo_app_provenance`.`Reported_Provenance_location_id` = `senufo_app_places3`.`Places_id`))) LEFT JOIN `senufo_app_essays_related_images` ON ((`senufo_app_essays`.`id` = `senufo_app_essays_related_images`.`essays_id`))) LEFT JOIN `senufo_app_images` `senufo_app_images2` ON ((`senufo_app_essays_related_images`.`images_id` = `senufo_app_images`.`id`))) GROUP BY `senufo_app_objects_places_reason`.`Reason_id`")
+#        row = cursor.fetchall()
+#        return row
+
 class Objects_Places_Reason(models.Model):
     Reason_id = models.AutoField(primary_key=True)
     Objects_Name = models.ForeignKey('Work_Records', verbose_name="Work's Name", blank=True, null=True)
@@ -133,6 +141,7 @@ class Objects_Places_Reason(models.Model):
     Place_Attribution_Certainty = models.CharField(max_length=200, blank=True, null=True)
     Place_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     WorkPlaceReason_Notes1 = models.TextField(verbose_name="Work Location Reason Notes", blank=True, null=True)
+#    objects = Objects_Places_ReasonManager()
     
     class Meta:
         verbose_name = 'Reasons for Mapped Work Locations'
@@ -141,8 +150,8 @@ class Objects_Places_Reason(models.Model):
         return u"%s, %s" % (self.Objects_Name, self.Places_Name)
 
 class Essays(models.Model):
-#    Essay = HTMLField(blank=True, null=True)
-#    Essay_Author = models.CharField(max_length=200, blank=True, null=True)
+    Essay_Title = models.CharField(max_length=200, blank=True, null=True)
+    Essay_Author = models.CharField(max_length=200, blank=True, null=True)
 #    Essay_Date = models.CharField(max_length=100, blank=True, null=True)
 #    Bibliography = HTMLField(blank=True, null=True)
     Essay_URL = models.URLField(max_length=200, blank=True, null=True)

@@ -56,7 +56,7 @@ class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions')
 
 class EssaysAdmin(admin.ModelAdmin):
-    search_fields = ('Essay_URL', 'Citation_Format')
+    search_fields = ('Essay_URL', 'Citation_Format', 'Essay_Title', 'Essay_Author')
     filter_horizontal = ('Related_Works','Related_Images')
 
 class AuthorsAdmin(admin.ModelAdmin):

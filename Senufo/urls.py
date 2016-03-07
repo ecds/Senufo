@@ -23,4 +23,6 @@ urlpatterns = [
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^Map_Print_DrawingPhoto/$', views.map_working_drawingphoto, name="Create CSV 2"),
     url(r'^Map_Print_Collection/$', views.map_working_collection, name="Create CSV 3"),
+    url(r'^MappedWork_Page/$', views.mapped_work_webpage_view, name="Mapped Work Page"),
+#    url(r'^Page/$', views.Page, name="Page"),
 ]
