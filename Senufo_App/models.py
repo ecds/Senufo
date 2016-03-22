@@ -1,6 +1,9 @@
 from django.db import connection, models
 from tinymce.models import HTMLField
 from django.utils.html import format_html
+from import_export import resources, fields
+from import_export.widgets import ForeignKeyWidget, DateWidget, ManyToManyWidget
+from multiselectfield import MultiSelectField
 
 class Authors(models.Model):
     Author_Name = models.CharField(max_length=200, verbose_name="Author's Name", blank=True, null=True)
@@ -33,6 +36,7 @@ class Work_Records(models.Model):
     Collection_Name = models.CharField(max_length=200, blank=True, null=True)
     Collection_Number = models.CharField(max_length=200, blank=True, null=True)
     Collection_Information = models.CharField(max_length=255, blank=True, null=True)
+    Not_For_Map = models.BooleanField(blank=True, default=False)
     Other_Publications = models.TextField(blank=True, null=True)
     Reported_field_acquisition_name = models.CharField(max_length=255, blank=True, null=True)
     Reported_field_acquisition_location = models.ForeignKey('Places', blank=True, null=True)
@@ -132,39 +136,45 @@ class AdditionalPlaces(models.Model):
 #        row = cursor.fetchall()
 #        return row
 
-class Objects_Places_Reason(models.Model):
-    Reason_id = models.AutoField(primary_key=True)
+class Works_Places(models.Model):
+    WorkPlace_id = models.AutoField(primary_key=True)
     Objects_Name = models.ForeignKey('Work_Records', verbose_name="Work's Name", blank=True, null=True)
     Related_Image = models.ForeignKey('Images', blank=True, null=True)
     Places_Name = models.ForeignKey(Places, verbose_name="Place's Name", blank=True, null=True)
-    ReasonForPlace = models.CharField(max_length=200, blank=True, null=True, verbose_name="Reason for Work-Place Association", choices=(('Artist', 'Artist'), ('Photograph', 'Photograph'), ('Drawing', 'Drawing'), ('Collection', 'Collection or Acquisition')))
+    ReasonForPlace = MultiSelectField(max_length=200, blank=True, null=True, verbose_name="Reason for Work-Place Association", choices=(('Artist', 'Artist'), ('Photograph', 'Photograph'), ('Drawing', 'Drawing'), ('Collection', 'Collection or Acquisition')))
     Place_Attribution_Certainty = models.CharField(max_length=200, blank=True, null=True)
     Place_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    WorkPlaceReason_Notes1 = models.TextField(verbose_name="Work Location Reason Notes", blank=True, null=True)
+    Essay_Title = models.CharField(max_length=200, blank=True, null=True)
+    Essay_Author = models.CharField(max_length=200, blank=True, null=True)
+    Essay_URL = models.URLField(max_length=200, blank=True, null=True)
+    Citation_Format = models.CharField(max_length=200, blank=True, null=True, help_text="How to cite this essay.")
+#    Related_Works = models.ManyToManyField(Work_Records, related_name='EssayObjects', blank=True)
+    Related_Images = models.ManyToManyField(Images, related_name='EssayImages', blank=True)
+    WorkPlace_Notes1 = models.TextField(verbose_name="Work Location Reason Notes", blank=True, null=True)
 #    objects = Objects_Places_ReasonManager()
     
     class Meta:
-        verbose_name = 'Reasons for Mapped Work Locations'
-        verbose_name_plural = 'Reasons for Mapped Work Locations'
+        verbose_name = 'Mapped Work Location'
+        verbose_name_plural = 'Mapped Work Locations'
     def __unicode__(self):
         return u"%s, %s" % (self.Objects_Name, self.Places_Name)
 
-class Essays(models.Model):
-    Essay_Title = models.CharField(max_length=200, blank=True, null=True)
-    Essay_Author = models.CharField(max_length=200, blank=True, null=True)
+
+
+
+
+
+#class Essays(models.Model):
+
 #    Essay_Date = models.CharField(max_length=100, blank=True, null=True)
 #    Bibliography = HTMLField(blank=True, null=True)
-    Essay_URL = models.URLField(max_length=200, blank=True, null=True)
-    Citation_Format = models.CharField(max_length=200, blank=True, null=True, help_text="How to cite this essay.")
-    Related_Works = models.ManyToManyField(Work_Records, related_name='EssayObjects', blank=True)
-    Related_Images = models.ManyToManyField(Images, related_name='EssayImages', blank=True)
 
-    class Meta:
-        verbose_name = 'Essay'
-        verbose_name_plural = 'Essays'
-    def __unicode__(self):
-        return u"%s, %s" % (self.Citation_Format, self.Essay_URL)
 
+#    class Meta:
+#        verbose_name = 'Essay'
+#        verbose_name_plural = 'Essays'
+#    def __unicode__(self):
+#        return u"%s, %s" % (self.Citation_Format, self.Essay_URL)
 
 #class PrintObjectPlace(models.Model):
 

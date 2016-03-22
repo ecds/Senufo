@@ -3,7 +3,7 @@ from import_export.admin import ImportExportModelAdmin
 from import_export import fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from django.contrib import admin
-from Senufo_App.models import Work_Records, Images, Essays, Authors, Places, Objects_Places_Reason, AdditionalPlaces, Provenance
+from Senufo_App.models import Work_Records, Images, Authors, Places, Works_Places, AdditionalPlaces, Provenance
 
 class Work_RecordsResource(resources.ModelResource):
     Author = fields.Field(column_name='Author', attribute='Author', widget=ManyToManyWidget(Authors, ',', 'Author_Name'))
@@ -23,7 +23,7 @@ class Work_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'fields': ('Work_Name', 'Work_Type', 'Author', 'AuthorAttributionCertainty', 'Author_Attribution_Certainty_Numeric', 'Description', 'Work_Creation_date', 'Work_Creation_date_numeric', 'Material', 'Dimensions', 'Publication_Information')
         }),
         ('Collection Data and Provenance', {
-            'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications')
+            'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Not_For_Map')
         }),
         ('Reported Field Acquisition', {
             'fields': ('Reported_field_acquisition_name', 'Reported_field_acquisition_location', 'Reported_field_acquisition_date', 'Reported_field_acquisition_date_numeric', 'Reported_field_acquisition_certainty_notes', 'Reported_field_acquisition_certainty_numeric')
@@ -55,9 +55,8 @@ class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions_html')
     search_fields = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions')
 
-class EssaysAdmin(admin.ModelAdmin):
-    search_fields = ('Essay_URL', 'Citation_Format', 'Essay_Title', 'Essay_Author')
-    filter_horizontal = ('Related_Works','Related_Images')
+#class EssaysAdmin(admin.ModelAdmin):
+#    search_fields = ()
 
 class AuthorsAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -90,7 +89,7 @@ class PlacesAdmin(admin.ModelAdmin):
     search_fields = ('Map_Place_Name', 'Location_point_or_region', 'Location_point_or_region_notes', 'NGA_Place_Name', 'NGA_Administrative_Division', 'NGA_Country')
 
 
-class Object_Places_ReasonResource(resources.ModelResource):
+class Work_PlacesResource(resources.ModelResource):
     Object_Name = fields.Field(column_name='Objects_Name', attribute='Objects_Name', widget=ForeignKeyWidget(Work_Records, 'Work_Name'))
     Place_Name = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Place_Name'))
     Image_Name = fields.Field(column_name='Related_Image', attribute='Related_Image', widget=ForeignKeyWidget(Images, 'Image_Name'))
@@ -99,19 +98,40 @@ class Object_Places_ReasonResource(resources.ModelResource):
         fields = ('Objects_Name', 'Image_Name', 'Places_Name',)
         export_order = ('Objects_Name', 'Image_Name', 'Places_Name',)
 
-class Objects_Places_ReasonAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    resource_class = Object_Places_ReasonResource
+class PostsResource(resources.ModelResource):
+    Object_Name = fields.Field(column_name='Objects_Name', attribute='Objects_Name', widget=ForeignKeyWidget(Work_Records, 'Work_Name'))
+    Place_Name = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Place_Name'))
+    Image_Name = fields.Field(column_name='Related_Image', attribute='Related_Image', widget=ForeignKeyWidget(Images, 'Image_Name'))
+    Related_Images = fields.Field(column_name='Related_Images', attribute='Related_Images', widget=ManyToManyWidget(Images, 'Image_Name'))
+
+class Works_PlacesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = Work_PlacesResource, PostsResource
     fieldsets = (
         (None, {
             'fields': ('Objects_Name', 'Related_Image', 'Places_Name', 'ReasonForPlace', 'Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric')
         }),
+        ('Essay', {
+            'fields': ('Essay_Title','Essay_Author','Essay_URL','Citation_Format','Related_Images',)
+        }),
         ('Notes for Research', {
             'classes': ('collapse',),
-            'fields': ('WorkPlaceReason_Notes1',)
+            'fields': ('WorkPlace_Notes1',)
         }),
     )
     list_display = ('Objects_Name', 'Places_Name', 'ReasonForPlace')
-    search_fields = ('ReasonForPlace', 'Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric')
+    search_fields = ('ReasonForPlace', 'Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric', 'Essay_URL', 'Citation_Format', 'Essay_Title', 'Essay_Author')
+    filter_horizontal = ('Related_Images',)
+
+
+#Actively working here for the export class!!!!! 2016-03-22
+
+#    class Meta:
+#        model = Works_Places
+
+
+
+
+
 
 #class Print_MapResource(resources.ModelResource):
 #    class Meta:
@@ -128,8 +148,8 @@ admin.site.register(Work_Records, Work_RecordsAdmin)
 admin.site.register(Images, ImagesAdmin)
 admin.site.register(Authors, AuthorsAdmin)
 admin.site.register(Places, PlacesAdmin)
-admin.site.register(Objects_Places_Reason, Objects_Places_ReasonAdmin)
-admin.site.register(Essays, EssaysAdmin)
+admin.site.register(Works_Places, Works_PlacesAdmin)
+#admin.site.register(Essays, EssaysAdmin)
 #admin.site.register(ReasonForPlace)
 #admin.site.register(GetDATAclass)
 #admin.site.register(Print_Map, Print_MapAdmin)
