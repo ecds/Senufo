@@ -146,6 +146,7 @@ class Works_Places(models.Model):
     Place_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     Essay_Title = models.CharField(max_length=200, blank=True, null=True)
     Essay_Author = models.CharField(max_length=200, blank=True, null=True)
+    Essay_Date = models.CharField(max_length=200, blank=True, null=True)
     Essay_URL = models.URLField(max_length=200, blank=True, null=True)
     Citation_Format = models.CharField(max_length=200, blank=True, null=True, help_text="How to cite this essay.")
 #    Related_Works = models.ManyToManyField(Work_Records, related_name='EssayObjects', blank=True)
