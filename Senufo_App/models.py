@@ -53,6 +53,8 @@ class Work_Records(models.Model):
         verbose_name_plural = 'Works'
     def __unicode__(self):
         return u"%s" % (self.Work_Name)
+    def Publication_Information_html(self):
+        return format_html(self.Publication_Information)
 
 class Provenance(models.Model):
     Reported_Provenance_name = models.CharField(max_length=500, help_text="Name of person or entity")
