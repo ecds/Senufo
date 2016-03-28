@@ -2,6 +2,7 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from import_export import fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
+from import_export.admin import ExportActionModelAdmin
 from django.contrib import admin
 from Senufo_App.models import Work_Records, Images, Authors, Places, Works_Places, AdditionalPlaces, Provenance
 
@@ -89,26 +90,31 @@ class PlacesAdmin(admin.ModelAdmin):
     search_fields = ('Map_Place_Name', 'Location_point_or_region', 'Location_point_or_region_notes', 'NGA_Place_Name', 'NGA_Administrative_Division', 'NGA_Country')
 
 
-class Work_PlacesResource(resources.ModelResource):
-    Object_Name = fields.Field(column_name='Objects_Name', attribute='Objects_Name', widget=ForeignKeyWidget(Work_Records, 'Work_Name'))
-    Place_Name = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Place_Name'))
-    Image_Name = fields.Field(column_name='Related_Image', attribute='Related_Image', widget=ForeignKeyWidget(Images, 'Image_Name'))
-    class Meta:
-        model = Work_Records
-        fields = ('Objects_Name', 'Image_Name', 'Places_Name',)
-        export_order = ('Objects_Name', 'Image_Name', 'Places_Name',)
+#class Work_PlacesResource(resources.ModelResource):
+#    Object_Name = fields.Field(column_name='Objects_Name', attribute='Objects_Name', widget=ForeignKeyWidget(Work_Records, 'Work_Name'))
+#    Place_Name = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Place_Name'))
+#    Image_Name = fields.Field(column_name='Main_Work_Image', attribute='Main_Work_Image', widget=ForeignKeyWidget(Images, 'Image_Name'))
+#    class Meta:
+#        model = Work_Records
+#        fields = ('Objects_Name', 'Image_Name', 'Places_Name',)
+#        export_order = ('Objects_Name', 'Image_Name', 'Places_Name',)
 
+#Actively working here for the export class!!!!! 2016-03-22
 class PostsResource(resources.ModelResource):
     Object_Name = fields.Field(column_name='Objects_Name', attribute='Objects_Name', widget=ForeignKeyWidget(Work_Records, 'Work_Name'))
-    Place_Name = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Place_Name'))
-    Image_Name = fields.Field(column_name='Related_Image', attribute='Related_Image', widget=ForeignKeyWidget(Images, 'Image_Name'))
-    Related_Images = fields.Field(column_name='Related_Images', attribute='Related_Images', widget=ManyToManyWidget(Images, 'Image_Name'))
-
+    Place_Name = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Map_Place_Name'))
+    Image_Name = fields.Field(column_name='Main_Work_Image', attribute='Main_Work_Image', widget=ForeignKeyWidget(Images, 'Image_Name'))
+    Related_Images = fields.Field(column_name='Related_Images', attribute='Related_Images', widget=ManyToManyWidget(Images, ',', 'Image_Name'))
+    class Meta:
+        model = Works_Places
+        fields = ('WorkPlace_id', 'ReasonForPlace', 'Essay_Title', 'Essay_Author', 'Essay_URL', 'Citation_Format', 'Related_Images')
+        export_order = ('WorkPlace_id', 'Object_Name', 'Image_Name', 'Place_Name', 'ReasonForPlace', 'Essay_Title', 'Essay_Author', 'Essay_URL', 'Citation_Format', 'Related_Images')
+        
 class Works_PlacesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    resource_class = Work_PlacesResource, PostsResource
+    resource_class = PostsResource
     fieldsets = (
         (None, {
-            'fields': ('Objects_Name', 'Related_Image', 'Places_Name', 'ReasonForPlace', 'Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric')
+            'fields': ('Objects_Name', 'Main_Work_Image', 'Places_Name', 'ReasonForPlace', 'Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric')
         }),
         ('Essay', {
             'fields': ('Essay_Title','Essay_Author','Essay_URL','Citation_Format','Related_Images',)
@@ -121,9 +127,13 @@ class Works_PlacesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('Objects_Name', 'Places_Name', 'ReasonForPlace')
     search_fields = ('ReasonForPlace', 'Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric', 'Essay_URL', 'Citation_Format', 'Essay_Title', 'Essay_Author')
     filter_horizontal = ('Related_Images',)
+    
+    
+class PostExport(ExportActionModelAdmin):
+    resource_class = PostsResource
+    to_encoding = 'utf-8'
+    pass
 
-
-#Actively working here for the export class!!!!! 2016-03-22
 
 #    class Meta:
 #        model = Works_Places

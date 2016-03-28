@@ -139,7 +139,7 @@ class AdditionalPlaces(models.Model):
 class Works_Places(models.Model):
     WorkPlace_id = models.AutoField(primary_key=True)
     Objects_Name = models.ForeignKey('Work_Records', verbose_name="Work's Name", blank=True, null=True)
-    Related_Image = models.ForeignKey('Images', blank=True, null=True)
+    Main_Work_Image = models.ForeignKey('Images', blank=True, null=True)
     Places_Name = models.ForeignKey(Places, verbose_name="Place's Name", blank=True, null=True)
     ReasonForPlace = MultiSelectField(max_length=200, blank=True, null=True, verbose_name="Reason for Work-Place Association", choices=(('Artist', 'Artist'), ('Photograph', 'Photograph'), ('Drawing', 'Drawing'), ('Collection', 'Collection or Acquisition')))
     Place_Attribution_Certainty = models.CharField(max_length=200, blank=True, null=True)
