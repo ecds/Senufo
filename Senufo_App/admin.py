@@ -114,7 +114,7 @@ class Works_PlacesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = PostsResource
     fieldsets = (
         (None, {
-            'fields': ('Objects_Name', 'Main_Work_Image', 'Places_Name', 'ReasonForPlace', 'Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric')
+            'fields': ('Objects_Name', 'Main_Work_Image', 'Places_Name', 'ReasonForPlace_Artist', 'ReasonForPlace_Drawing','ReasonForPlace_Photograph','ReasonForPlace_Collection','Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric')
         }),
         ('Essay', {
             'fields': ('Essay_Title','Essay_Author', 'Essay_Date', 'Essay_URL','Citation_Format','Related_Images',)
@@ -124,8 +124,8 @@ class Works_PlacesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'fields': ('WorkPlace_Notes1',)
         }),
     )
-    list_display = ('Objects_Name', 'Places_Name', 'ReasonForPlace')
-    search_fields = ('ReasonForPlace', 'Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric', 'Essay_URL', 'Citation_Format', 'Essay_Title', 'Essay_Author')
+    list_display = ('Objects_Name', 'Places_Name', 'Essay_Title')
+    search_fields = ('Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric', 'Essay_URL', 'Citation_Format', 'Essay_Title', 'Essay_Author')
     filter_horizontal = ('Related_Images',)
     
     
