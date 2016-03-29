@@ -164,6 +164,9 @@ class Works_Places(models.Model):
         verbose_name_plural = 'Mapped Work Locations'
     def __unicode__(self):
         return u"%s, %s" % (self.Objects_Name, self.Places_Name)
+    def image_names(self):
+    	if self.Related_Images:
+    		return "%s (%s)" % (self.Image_Name, ','.join(Images.Image_Name for Images in self.Main_Work_Image.all()))
 
 
 

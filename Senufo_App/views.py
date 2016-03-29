@@ -21,6 +21,10 @@ from django.http import HttpResponse
 from djqscsv import render_to_csv_response
 from Senufo_App.models import Work_Records, Images, Authors, Places, Works_Places
 from django.db import connection
+import itertools
+from django.db.models import Aggregate
+from django.db.models.sql.aggregates import Aggregate as SQLAggregate
+from django_mysql.models import GroupConcat
 
 def map_working(request):
     PlaceLocations = Works_Places.objects.values('WorkPlace_id', 'ReasonForPlace_Artist', 'ReasonForPlace_Drawing','ReasonForPlace_Photograph','ReasonForPlace_Collection', 'Objects_Name__Work_Name', 'Objects_Name__Description', 'Objects_Name__Author__Author_Name', 'Objects_Name__AuthorAttributionCertainty', 'Objects_Name__Work_Creation_date', 'Main_Work_Image__Image_Name', 'Main_Work_Image__ImageAuthor_Name__Author_Name', 'Main_Work_Image__stable_url', 'Places_Name__Map_Place_Name', 'Places_Name__Latitude', 'Places_Name__Longitude').filter(ReasonForPlace_Artist='1')
@@ -35,9 +39,12 @@ def map_working_collection(request):
     return render_to_csv_response(PlaceLocationCollection)
 
 # Still working on this.  How to link in-lines - alternate place names, provenance fields. How to link to essay url? = All 3 are backwards ForeignKey. Check into a mySQL view (workbench) for this!!
+
+
+
 def mapped_work_webpage_view(request):
-    WorkPageInformation = Works_Places.objects.values('WorkPlace_id', 'Essay_Title', 'Main_Work_Image__Image_Name', 'Main_Work_Image__ImageAuthor_Name__Author_Name', 'Objects_Name__Work_Name', 'Objects_Name__Description', 'Objects_Name__Work_Creation_date', 'Objects_Name__Collection_Name', 'Objects_Name__Collection_Number', 'Objects_Name__Reported_field_acquisition_name', 'Objects_Name__Reported_field_acquisition_location__Map_Place_Name', 'Objects_Name__Reported_field_acquisition_date', 'Objects_Name__provenance__Reported_Provenance_name', 'Objects_Name__provenance__Reported_Provenance_location__Map_Place_Name','Objects_Name__provenance__Reported_Provenance_date','Places_Name__Map_Place_Name', 'Essay_URL', 'Objects_Name__Publication_Information', 'Essay_Author', 'Essay_Date', 'Citation_Format', 'Related_Images__Image_Name')
-    return render_to_csv_response(WorkPageInformation)
+    WorkPageInformation = Works_Places.objects.values('WorkPlace_id', 'Essay_Title', 'Main_Work_Image__Image_Name', 'Main_Work_Image__Image_Filename', 'Main_Work_Image__ImageAuthor_Name__Author_Name', 'Objects_Name__Work_Name', 'Objects_Name__Description', 'Objects_Name__Work_Creation_date', 'Objects_Name__Collection_Name', 'Objects_Name__Collection_Number', 'Objects_Name__Reported_field_acquisition_name', 'Objects_Name__Reported_field_acquisition_location__Map_Place_Name', 'Objects_Name__Reported_field_acquisition_date', 'Places_Name__Map_Place_Name', 'Essay_URL', 'Objects_Name__Publication_Information', 'Essay_Author', 'Essay_Date', 'Citation_Format').annotate(Reported_Provenance_names=GroupConcat('Objects_Name__provenance__Reported_Provenance_name', distinct=True), Reported_Provenance_locations=GroupConcat('Objects_Name__provenance__Reported_Provenance_location__Map_Place_Name', distinct=True), Reported_Provenance_dates=GroupConcat('Objects_Name__provenance__Reported_Provenance_date', distinct=True), Related_Images=GroupConcat('Related_Images__Image_Name', distinct=True))
+    return render_to_csv_response(WorkPageInformation, field_header_map={'WorkPlace_id':'WorkPlace_id', 'Essay_Title':'Essay_Title', 'Main_Work_Image__Image_Name':'Main_Work_Image', 'Main_Work_Image__Image_Filename':'Main_Work_Image_Filename','Main_Work_Image__ImageAuthor_Name__Author_Name':'Image_Credits', 'Objects_Name__Work_Name':'Work_Name', 'Objects_Name__Description':'Work_Description', 'Objects_Name__Work_Creation_date':'Work_Creation_Date', 'Objects_Name__Collection_Name':'Collection_Name', 'Objects_Name__Collection_Number':'Collection_Number', 'Objects_Name__Reported_field_acquisition_name':'Reported_field_acquisition_name', 'Objects_Name__Reported_field_acquisition_location__Map_Place_Name':'Reported_field_acquisition_location', 'Objects_Name__Reported_field_acquisition_date':'Reported_field_acquisition_date', 'Places_Name__Map_Place_Name':'Place_Name', 'Essay_URL':'Essay_URL', 'Objects_Name__Publication_Information':'Selected_Publication_History', 'Essay_Author':'Essay_Author', 'Essay_Date':'Essay_Date', 'Citation_Format': 'Citation_Format'})
     
     
 #def mapped_work_webpage_view(request):
