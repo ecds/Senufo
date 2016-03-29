@@ -114,7 +114,7 @@ class Works_PlacesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = PostsResource
     fieldsets = (
         (None, {
-            'fields': ('Objects_Name', 'Main_Work_Image', 'Places_Name', 'ReasonForPlace_Artist', 'ReasonForPlace_Drawing','ReasonForPlace_Photograph','ReasonForPlace_Collection','Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric')
+            'fields': ('Objects_Name', 'Main_Work_Image', 'Places_Name', 'ReasonForPlace_Artist', 'ReasonForPlace_Drawing','ReasonForPlace_Photograph','ReasonForPlace_Collection','Place_Attribution_Certainty', 'Place_Attribution_Certainty_Numeric', 'Work_URL')
         }),
         ('Essay', {
             'fields': ('Essay_Title','Essay_Author', 'Essay_Date', 'Essay_URL','Citation_Format','Related_Images',)

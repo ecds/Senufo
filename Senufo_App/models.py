@@ -149,6 +149,7 @@ class Works_Places(models.Model):
     ReasonForPlace_Collection = models.BooleanField(blank=True, default=False)
     Place_Attribution_Certainty = models.CharField(max_length=200, blank=True, null=True)
     Place_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    Work_URL = models.URLField(max_length=200, blank=True, null=True, help_text="Current link to the WordPress page for this work-place instance.")
     Essay_Title = models.CharField(max_length=200, blank=True, null=True)
     Essay_Author = models.CharField(max_length=200, blank=True, null=True)
     Essay_Date = models.CharField(max_length=200, blank=True, null=True)
