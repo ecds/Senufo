@@ -7,3 +7,5 @@ mysql
 django-import-export
 django-queryset-csv
 django-tinymce
+django-multiselectfield
+django-mysql
