@@ -34,10 +34,10 @@ class Work_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'fields': ('ResearchNotes1', 'ResearchNotes2', 'Reported_field_acquisition_notes')
         }),
     )
-    list_display = ('Work_Name', 'Work_Type', 'Description')
+    list_display = ('Work_Name', 'Work_Type', 'Description', 'Work_Creation_date')
     inlines = [ProvenanceInline,]
     search_fields = ('Work_Name', 'Work_Type', 'Description', 'ResearchNotes1', 'ResearchNotes2', 'Material')
-
+    ordering = ('Work_Name',)
     
 class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     filter_horizontal = ('ImageAuthor_Name', 'Works_ID')
@@ -55,6 +55,7 @@ class ImagesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     )
     list_display = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions_html')
     search_fields = ('Image_Name', 'HaveImagePermissions_YesNo', 'Copyright_Permissions')
+    ordering = ( '-HaveImagePermissions_YesNo', 'Image_Name')
 
 #class EssaysAdmin(admin.ModelAdmin):
 #    search_fields = ()
@@ -71,6 +72,7 @@ class AuthorsAdmin(admin.ModelAdmin):
     )
     list_display = ('Author_Name', 'Place_of_Birth', 'Place_Active', 'Bio_Information')
     search_fields = ('Author_Name', 'Place_of_Birth', 'Place_Active', 'Bio_Information', 'Dates_Active', 'Author_Notes1', 'Author_Notes2')
+    ordering = ('Author_Name',)
 
 class AdditionalPlacesInline(admin.TabularInline):
     model = AdditionalPlaces     
@@ -88,7 +90,7 @@ class PlacesAdmin(admin.ModelAdmin):
     list_display = ('Map_Place_Name', 'Latitude', 'Longitude')
     inlines = [AdditionalPlacesInline,]
     search_fields = ('Map_Place_Name', 'Location_point_or_region', 'Location_point_or_region_notes', 'NGA_Place_Name', 'NGA_Administrative_Division', 'NGA_Country')
-
+    ordering = ('Map_Place_Name',)
 
 #class Work_PlacesResource(resources.ModelResource):
 #    Object_Name = fields.Field(column_name='Objects_Name', attribute='Objects_Name', widget=ForeignKeyWidget(Work_Records, 'Work_Name'))

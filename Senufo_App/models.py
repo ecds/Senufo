@@ -23,7 +23,7 @@ class Authors(models.Model):
 class Work_Records(models.Model):
     Object_id = models.AutoField(primary_key=True)
     Work_Name = models.CharField(max_length=200, blank=True, null=True)
-    Work_Type = models.CharField(max_length=45, blank=True, null=True, choices=(('Sculpture', 'Sculpture'),('Photograph', 'Photograph'),('PlaceHolder', 'Place Holder')))
+    Work_Type = models.CharField(max_length=45, blank=True, null=True, choices=(('Sculpture', 'Sculpture'),('Photograph', 'Photograph'),('Engraving', 'Engraving'),('Drawing', 'Drawing'),('Video Still', 'Video Still'),('Ceramic', 'Ceramic')))
     Author = models.ManyToManyField(Authors, blank=True)
     AuthorAttributionCertainty = models.CharField(verbose_name="Author Attribution Certainty", max_length=200, blank=True, null=True)
     Author_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
