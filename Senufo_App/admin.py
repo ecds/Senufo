@@ -21,8 +21,11 @@ class Work_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = Work_RecordsResource
     fieldsets = (
         (None, {
-            'fields': ('Work_Name', 'Work_Type', 'Author', 'AuthorAttributionCertainty', 'Author_Attribution_Certainty_Numeric', 'Description', 'Work_Creation_date', 'Work_Creation_date_numeric', 'Material', 'Dimensions', 'Publication_Information')
+            'fields': ('Work_Name', 'Work_Type', 'Author', 'AuthorAttributionCertainty', 'Author_Attribution_Certainty_Numeric', 'Description', 'Material', 'Dimensions', 'Publication_Information')
         }),
+	('Date', {
+            'fields': ('Work_Creation_date', 'Start_date', 'End_date', 'By_date', 'Not_after_date')
+}),
         ('Collection Data and Provenance', {
             'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Not_For_Map')
         }),

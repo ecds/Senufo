@@ -9,3 +9,4 @@ django-queryset-csv
 django-tinymce
 django-multiselectfield
 django-mysql
+mysql-python
