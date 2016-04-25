@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from Senufo_App import views
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/admin', permanent=False)), # temp redirect to admin
