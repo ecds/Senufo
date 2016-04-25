@@ -13,8 +13,13 @@ class Work_RecordsResource(resources.ModelResource):
         fields = ('Work_Name', 'Work_Type', 'Object_Description', 'Author', 'AuthorAttributionCertainty', 'ResearchNotes1', 'ResearchNotes2',)
         export_order = ('Work_Name', 'Work_Type', 'Object_Description', 'Author', 'AuthorAttributionCertainty', 'ResearchNotes1', 'ResearchNotes2',)
 
-class ProvenanceInline(admin.TabularInline):
+class ProvenanceInline(admin.StackedInline):
     model = Provenance
+    fieldsets = (
+        (None, {
+            'fields': (('Reported_Provenance_name', 'Reported_Provenance_location', 'Provenance_Order'),('Reported_Provenance_date', 'Reported_Provenance_start_date_numeric', 'Reported_Provenance_end_date', 'Reported_Provenance_by_date', 'Reported_Provenance_not_after_date'),'Reported_Provenance_notes',)
+        }),
+    )
 
 class Work_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     filter_horizontal = ('Author',)

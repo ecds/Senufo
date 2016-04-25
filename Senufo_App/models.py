@@ -63,10 +63,13 @@ class Work_Records(models.Model):
 class Provenance(models.Model):
     Reported_Provenance_name = models.CharField(max_length=500, help_text="Name of person or entity")
     Reported_Provenance_location = models.ForeignKey('Places', related_name="ProvLoc", blank=True, null=True)
-    Reported_Provenance_date = models.CharField(max_length=500,blank=True, null=True)
-    Reported_Provenance_start_date_numeric = models.IntegerField(blank=True, null=True)
+    Reported_Provenance_date = models.CharField(max_length=500,blank=True, null=True, help_text="Date Information")
+    Reported_Provenance_start_date_numeric = models.IntegerField(blank=True, null=True, verbose_name="Provenance start date", help_text="Enter a year")
+    Reported_Provenance_end_date = models.IntegerField(blank=True, null=True, verbose_name="Provenance end date", help_text="Enter a year")
+    Reported_Provenance_by_date = models.IntegerField(blank=True, null=True, verbose_name="Provenance by date", help_text="Enter a year")
+    Reported_Provenance_not_after_date = models.IntegerField(blank=True, null=True, verbose_name="Provenance not after date", help_text="Enter a year")
     Provenance_Order = models.CharField(max_length=200, help_text="Earliest, second...?", blank=True, null=True)
-    Reported_Provenance_notes = models.CharField(max_length=500, blank=True, null=True)
+    Reported_Provenance_notes = models.CharField(max_length=500, blank=True, null=True, verbose_name="Notes")
     Provenance = models.ForeignKey(Work_Records, blank=True, null=True)
 
     class Meta:
