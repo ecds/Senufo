@@ -118,7 +118,7 @@ class Places(models.Model):
         verbose_name = 'Places'
         verbose_name_plural = 'Places'
     def __unicode__(self):
-        return u"%s" % (self.Map_Place_Name)
+        return u"%s %s %s" % (self.Map_Place_Name, self.Latitude, self.Longitude)
 
 class AdditionalPlaces(models.Model):
     Alternate_Place_Name = models.CharField(verbose_name="Alternate Place Name", max_length=200)
