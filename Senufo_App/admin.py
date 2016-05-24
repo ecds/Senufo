@@ -10,8 +10,8 @@ class Work_RecordsResource(resources.ModelResource):
     Author = fields.Field(column_name='Author', attribute='Author', widget=ManyToManyWidget(Authors, ',', 'Author_Name'))
     class Meta:
         model = Work_Records
-        fields = ('Work_Name', 'Work_Type', 'Object_Description', 'Author', 'AuthorAttributionCertainty', 'ResearchNotes1', 'ResearchNotes2',)
-        export_order = ('Work_Name', 'Work_Type', 'Object_Description', 'Author', 'AuthorAttributionCertainty', 'ResearchNotes1', 'ResearchNotes2',)
+        fields = ('Work_Name', 'Work_Type', 'Description', 'Author', 'AuthorAttributionCertainty', 'ResearchNotes1', 'ResearchNotes2',)
+        export_order = ('Work_Name', 'Work_Type', 'Description', 'Author', 'AuthorAttributionCertainty', 'ResearchNotes1', 'ResearchNotes2',)
 
 class ProvenanceInline(admin.StackedInline):
     model = Provenance
