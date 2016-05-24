@@ -117,8 +117,8 @@ class PostsResource(resources.ModelResource):
     Related_Images = fields.Field(column_name='Related_Images', attribute='Related_Images', widget=ManyToManyWidget(Images, ',', 'Image_Name'))
     class Meta:
         model = Works_Places
-        fields = ('WorkPlace_id', 'ReasonForPlace', 'Essay_Title', 'Essay_Author', 'Essay_Date', 'Essay_URL', 'Citation_Format', 'Related_Images')
-        export_order = ('WorkPlace_id', 'Essay_Title', 'Image_Name', 'Object_Name', 'Place_Name', 'ReasonForPlace', 'Essay_URL', 'Essay_Author', 'Essay_Date', 'Citation_Format', 'Related_Images')
+        fields = ('WorkPlace_id', 'ReasonForPlace_Artist', 'ReasonForPlace_Drawing','ReasonForPlace_Photograph','ReasonForPlace_Collection', 'Essay_Title', 'Essay_Author', 'Essay_Date', 'Essay_URL', 'Citation_Format', 'Related_Images')
+        export_order = ('WorkPlace_id', 'Essay_Title', 'Image_Name', 'Object_Name', 'Place_Name', 'ReasonForPlace_Artist', 'ReasonForPlace_Drawing','ReasonForPlace_Photograph','ReasonForPlace_Collection', 'Essay_URL', 'Essay_Author', 'Essay_Date', 'Citation_Format', 'Related_Images')
         
 class Works_PlacesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = PostsResource
