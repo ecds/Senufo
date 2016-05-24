@@ -8,10 +8,11 @@ from Senufo_App.models import Work_Records, Images, Authors, Places, Works_Place
 
 class Work_RecordsResource(resources.ModelResource):
     Author = fields.Field(column_name='Author', attribute='Author', widget=ManyToManyWidget(Authors, ',', 'Author_Name'))
+    Reported_field_acquisition_Place_Name = fields.Field(column_name='Reported_field_acquisition_location', attribute='Reported_field_acquisition_location', widget=ForeignKeyWidget(Places, 'Map_Place_Name'))
     class Meta:
         model = Work_Records
-        fields = ('Work_Name', 'Work_Type', 'Description', 'Material', 'Dimensions', 'Publication_Information', 'Author', 'AuthorAttributionCertainty', 'Work_Creation_date', 'Start_date', 'End_date', 'By_date', 'Not_after_date', 'Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Not_For_Map', 'ResearchNotes1', 'ResearchNotes2',)
-        export_order = ('Work_Name', 'Work_Type', 'Description', 'Author', 'AuthorAttributionCertainty', 'Material', 'Dimensions', 'Publication_Information', 'Work_Creation_date', 'Start_date', 'End_date', 'By_date', 'Not_after_date', 'Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Not_For_Map', 'ResearchNotes1', 'ResearchNotes2',)
+        fields = ('Work_Name', 'Work_Type', 'Description', 'Material', 'Dimensions', 'Publication_Information', 'Author', 'AuthorAttributionCertainty', 'Work_Creation_date', 'Start_date', 'End_date', 'By_date', 'Not_after_date', 'Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Not_For_Map', 'Reported_field_acquisition_name', 'Reported_field_acquisition_location', 'Reported_field_acquisition_date', 'Reported_field_acquisition_date_numeric', 'Reported_field_acquisition_certainty_notes', 'Reported_field_acquisition_certainty_numeric', 'ResearchNotes1', 'ResearchNotes2', 'Reported_field_acquisition_notes',)
+        export_order = ('Work_Name', 'Work_Type', 'Description', 'Author', 'AuthorAttributionCertainty', 'Material', 'Dimensions', 'Publication_Information', 'Work_Creation_date', 'Start_date', 'End_date', 'By_date', 'Not_after_date', 'Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Not_For_Map', 'Reported_field_acquisition_name', 'Reported_field_acquisition_location', 'Reported_field_acquisition_date', 'Reported_field_acquisition_date_numeric', 'Reported_field_acquisition_certainty_notes', 'Reported_field_acquisition_certainty_numeric', 'ResearchNotes1', 'ResearchNotes2', 'Reported_field_acquisition_notes',)
 
 class ProvenanceInline(admin.StackedInline):
     model = Provenance
