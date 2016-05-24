@@ -10,8 +10,8 @@ class Work_RecordsResource(resources.ModelResource):
     Author = fields.Field(column_name='Author', attribute='Author', widget=ManyToManyWidget(Authors, ',', 'Author_Name'))
     class Meta:
         model = Work_Records
-        fields = ('Work_Name', 'Work_Type', 'Description', 'Author', 'AuthorAttributionCertainty', 'ResearchNotes1', 'ResearchNotes2',)
-        export_order = ('Work_Name', 'Work_Type', 'Description', 'Author', 'AuthorAttributionCertainty', 'ResearchNotes1', 'ResearchNotes2',)
+        fields = ('Work_Name', 'Work_Type', 'Description', 'Material', 'Dimensions', 'Publication_Information', 'Author', 'AuthorAttributionCertainty', 'Work_Creation_date', 'Start_date', 'End_date', 'By_date', 'Not_after_date', 'Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Not_For_Map', 'ResearchNotes1', 'ResearchNotes2',)
+        export_order = ('Work_Name', 'Work_Type', 'Description', 'Author', 'AuthorAttributionCertainty', 'Material', 'Dimensions', 'Publication_Information', 'Work_Creation_date', 'Start_date', 'End_date', 'By_date', 'Not_after_date', 'Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Not_For_Map', 'ResearchNotes1', 'ResearchNotes2',)
 
 class ProvenanceInline(admin.StackedInline):
     model = Provenance
