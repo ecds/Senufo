@@ -36,7 +36,7 @@ class Work_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Not_For_Map')
         }),
         ('Reported Field Acquisition', {
-            'fields': ('Reported_field_acquisition_name', 'Reported_field_acquisition_location', 'Reported_field_acquisition_date', 'Reported_field_acquisition_date_numeric', 'Reported_field_acquisition_certainty_notes', 'Reported_field_acquisition_certainty_numeric')
+            'fields': ('Reported_field_acquisition_name', 'Reported_field_acquisition_location', 'Reported_field_acquisition_date', 'Reported_field_acquisition_date_numeric', 'Reported_field_acquisition_certainty_notes', 'Reported_field_acquisition_certainty_numeric', 'Reported_field_acquisition_provenance_order')
         }),
        ('Notes for Research', {
             'classes': ('collapse',),

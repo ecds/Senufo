@@ -51,6 +51,7 @@ class Work_Records(models.Model):
     Reported_field_acquisition_notes = models.TextField(blank=True, null=True)
     ResearchNotes1 = models.TextField(blank=True, null=True)
     ResearchNotes2 = models.TextField(blank=True, null=True)
+    Reported_field_acquisition_provenance_order = models.CharField(max_length=200, help_text="Earliest, second...?", blank=True, null=True)
 
     class Meta:
         verbose_name = 'Works'
