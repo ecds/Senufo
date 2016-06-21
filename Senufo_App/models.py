@@ -154,7 +154,7 @@ class Works_Places(models.Model):
     ReasonForPlace_Artist = models.BooleanField(blank=True, default=False)
     ReasonForPlace_Drawing = models.BooleanField(blank=True, default=False)
     ReasonForPlace_Photograph = models.BooleanField(blank=True, default=False)
-    ReasonForPlace_Collection = models.BooleanField(blank=True, default=False)
+    ReasonForPlace_Acquisition = models.BooleanField(blank=True, default=False)
     Place_Attribution_Certainty = models.CharField(max_length=200, blank=True, null=True)
     Place_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     Work_URL = models.URLField(max_length=200, blank=True, null=True, help_text="Current link to the WordPress page for this work-place instance.")
