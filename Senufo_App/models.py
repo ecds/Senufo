@@ -29,7 +29,7 @@ class Work_Records(models.Model):
     AuthorAttributionCertainty = models.CharField(verbose_name="Author Attribution Certainty", max_length=200, blank=True, null=True)
     Author_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     Description = models.TextField(verbose_name="Description of Work", blank=True, null=True)
-    Work_Creation_date = models.CharField(verbose_name="Date information", max_length=45, blank=True, null=True, help_text="Non-numeric dates, day and month information")
+    Work_Creation_date = models.CharField(verbose_name="Map Date", max_length=45, blank=True, null=True, help_text="Non-numeric dates, day and month information")
     Start_date = models.IntegerField(blank=True, null=True, help_text="Enter a year")
     End_date = models.IntegerField(blank=True, null=True, help_text="Enter a year")
     By_date = models.IntegerField(blank=True, null=True, help_text="Enter a year")
@@ -52,6 +52,7 @@ class Work_Records(models.Model):
     Reported_field_acquisition_notes = models.TextField(blank=True, null=True)
     ResearchNotes1 = models.TextField(blank=True, null=True)
     ResearchNotes2 = models.TextField(blank=True, null=True)
+    Reported_field_acquisition_provenance_order = models.CharField(max_length=200, help_text="Earliest, second...?", blank=True, null=True)
 
     class Meta:
         verbose_name = 'Works'

@@ -36,7 +36,7 @@ class Work_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'fields': ('Collection_Name', 'Collection_Number', 'Collection_Information', 'Other_Publications', 'Not_For_Map')
         }),
         ('Reported Field Acquisition', {
-            'fields': ('Reported_field_acquisition_name', 'Reported_field_acquisition_location', 'Reported_field_acquisition_date', 'Reported_field_acquisition_date_numeric', 'Reported_field_acquisition_certainty_notes', 'Reported_field_acquisition_certainty_numeric')
+            'fields': ('Reported_field_acquisition_name', 'Reported_field_acquisition_location', 'Reported_field_acquisition_date', 'Reported_field_acquisition_date_numeric', 'Reported_field_acquisition_certainty_notes', 'Reported_field_acquisition_certainty_numeric', 'Reported_field_acquisition_provenance_order')
         }),
        ('Notes for Research', {
             'classes': ('collapse',),
@@ -102,7 +102,7 @@ class PlacesAdmin(admin.ModelAdmin):
     ordering = ('Map_Place_Name',)
 
 #class Work_PlacesResource(resources.ModelResource):
-#    Object_Name = fields.Field(column_name='Objects_Name', attribute='Objects_Name', widget=ForeignKeyWidget(Work_Records, 'Work_Name'))
+#    Object_Name = fields.Field(column_name='Objects_Name', attribute='Objects_Name', widget=ForeignKeyWidget(Work_Records, 'Database_Database_Work_Name'))
 #    Place_Name = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Place_Name'))
 #    Image_Name = fields.Field(column_name='Main_Work_Image', attribute='Main_Work_Image', widget=ForeignKeyWidget(Images, 'Image_Name'))
 #    class Meta:
@@ -116,11 +116,10 @@ class PostsResource(resources.ModelResource):
     Place_Name = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Map_Place_Name'))
     Image_Name = fields.Field(column_name='Main_Work_Image', attribute='Main_Work_Image', widget=ForeignKeyWidget(Images, 'Image_Name'))
     Related_Images = fields.Field(column_name='Related_Images', attribute='Related_Images', widget=ManyToManyWidget(Images, ',', 'Image_Name'))
-    Latitude = fields.Field(column_name='Places_Name', attribute='Places_Name', widget=ForeignKeyWidget(Places, 'Latitude'))
     class Meta:
         model = Works_Places
-        fields = ('WorkPlace_id', 'ReasonForPlace_Artist', 'ReasonForPlace_Drawing','ReasonForPlace_Photograph','ReasonForPlace_Collection', 'Essay_Title', 'Essay_Author', 'Essay_Date', 'Essay_URL', 'Citation_Format', 'Related_Images')
-        export_order = ('WorkPlace_id', 'Essay_Title', 'Image_Name', 'Object_Name', 'Place_Name', 'Latitude', 'ReasonForPlace_Artist', 'ReasonForPlace_Drawing','ReasonForPlace_Photograph','ReasonForPlace_Acquisition', 'Essay_URL', 'Essay_Author', 'Essay_Date', 'Citation_Format', 'Related_Images')
+        fields = ('WorkPlace_id', 'ReasonForPlace_Artist', 'ReasonForPlace_Drawing','ReasonForPlace_Photograph','ReasonForPlace_Acquisition', 'Essay_Title', 'Essay_Author', 'Essay_Date', 'Essay_URL', 'Citation_Format', 'Related_Images')
+        export_order = ('WorkPlace_id', 'Essay_Title', 'Image_Name', 'Object_Name', 'Place_Name', 'ReasonForPlace_Artist', 'ReasonForPlace_Drawing','ReasonForPlace_Photograph','ReasonForPlace_Acquisition', 'Essay_URL', 'Essay_Author', 'Essay_Date', 'Citation_Format', 'Related_Images')
         
 class Works_PlacesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = PostsResource
