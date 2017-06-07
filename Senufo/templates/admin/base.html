@@ -43,6 +43,8 @@
                 <a href="{% url 'Create CSV 2' %}">Download Drawing-Photograph Map CSV File</a> /
                 <a href="{% url 'Create CSV 3' %}">Download Collection Map CSV File</a> /
                 <a href="{% url 'Mapped Work Page' %}">Download Posts File for WP</a> /
+                <a href="{% url 'Works with LatLong' %}">Download Works Table</a> /
+                <a href="{% url 'WorkPlaces with LatLong' %}">Download Work-Places Table</a> /
                 {% if user.has_usable_password %}
                 <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
                 {% endif %}

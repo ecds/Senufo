@@ -22,7 +22,8 @@ class Authors(models.Model):
 
 class Work_Records(models.Model):
     Object_id = models.AutoField(primary_key=True)
-    Work_Name = models.CharField(max_length=200, blank=True, null=True)
+    Database_Work_Name = models.CharField(max_length=200, blank=True, null=True)
+    Map_Work_Name = models.CharField(max_length=200, blank=True, null=True)
     Work_Type = models.CharField(max_length=45, blank=True, null=True, choices=(('Sculpture', 'Sculpture'),('Photograph', 'Photograph'),('Engraving', 'Engraving'),('Drawing', 'Drawing'),('Video Still', 'Video Still'),('Ceramic', 'Ceramic')))
     Author = models.ManyToManyField(Authors, blank=True)
     AuthorAttributionCertainty = models.CharField(verbose_name="Author Attribution Certainty", max_length=200, blank=True, null=True)
@@ -56,7 +57,7 @@ class Work_Records(models.Model):
         verbose_name = 'Works'
         verbose_name_plural = 'Works'
     def __unicode__(self):
-        return u"%s" % (self.Work_Name)
+        return u"%s" % (self.Database_Work_Name)
     def Publication_Information_html(self):
         return format_html(self.Publication_Information)
 
@@ -153,7 +154,7 @@ class Works_Places(models.Model):
     ReasonForPlace_Artist = models.BooleanField(blank=True, default=False)
     ReasonForPlace_Drawing = models.BooleanField(blank=True, default=False)
     ReasonForPlace_Photograph = models.BooleanField(blank=True, default=False)
-    ReasonForPlace_Collection = models.BooleanField(blank=True, default=False)
+    ReasonForPlace_Acquisition = models.BooleanField(blank=True, default=False)
     Place_Attribution_Certainty = models.CharField(max_length=200, blank=True, null=True)
     Place_Attribution_Certainty_Numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     Work_URL = models.URLField(max_length=200, blank=True, null=True, help_text="Current link to the WordPress page for this work-place instance.")
