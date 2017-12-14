@@ -44,15 +44,22 @@ class Work_Records(models.Model):
     Not_For_Map = models.BooleanField(blank=True, default=False)
     Other_Publications = models.TextField(blank=True, null=True)
     Reported_field_acquisition_name = models.CharField(max_length=255, blank=True, null=True)
-    Reported_field_acquisition_location = models.ForeignKey('Places', blank=True, null=True)
+    Reported_field_acquisition_location = models.ForeignKey('Places', related_name="fa_place", blank=True, null=True)
     Reported_field_acquisition_date = models.CharField(max_length=255, blank=True, null=True)
     Reported_field_acquisition_date_numeric = models.IntegerField(blank=True, null=True)
     Reported_field_acquisition_certainty_notes = models.CharField(max_length=255, blank=True, null=True)
     Reported_field_acquisition_certainty_numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     Reported_field_acquisition_notes = models.TextField(blank=True, null=True)
+    Reported_origin_name = models.CharField(max_length=255, help_text="The Reported Origin refers to an origin assigned to an object but not necessarily because the object was acquired or documented there.", blank=True, null=True)
+    Reported_origin_location = models.ForeignKey('Places', related_name="origin_place", blank=True, null=True)
+    Reported_origin_date = models.CharField(max_length=255, blank=True, null=True)
+    Reported_origin_date_numeric = models.IntegerField(blank=True, null=True)
+    Reported_origin_certainty_notes = models.CharField(max_length=255, blank=True, null=True)
+    Reported_origin_certainty_numeric = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    Reported_origin_notes = models.TextField(blank=True, null=True)
     ResearchNotes1 = models.TextField(blank=True, null=True)
     ResearchNotes2 = models.TextField(blank=True, null=True)
-    Reported_field_acquisition_provenance_order = models.CharField(max_length=200, help_text="Earliest, second...?", blank=True, null=True)
+    Reported_field_acquisition_provenance_order = models.CharField(max_length=200, help_text="1 should be used for the earliest information (usually field acquisition), and 2 for the next information chronologically, etc.", blank=True, null=True)
 
     class Meta:
         verbose_name = 'Works'
@@ -70,7 +77,7 @@ class Provenance(models.Model):
     Reported_Provenance_end_date = models.IntegerField(blank=True, null=True, verbose_name="Provenance end date", help_text="Enter a year")
     Reported_Provenance_by_date = models.IntegerField(blank=True, null=True, verbose_name="Provenance by date", help_text="Enter a year")
     Reported_Provenance_not_after_date = models.IntegerField(blank=True, null=True, verbose_name="Provenance not after date", help_text="Enter a year")
-    Provenance_Order = models.CharField(max_length=200, help_text="Earliest, second...?", blank=True, null=True)
+    Provenance_Order = models.CharField(max_length=200, help_text="1 should be used for the earliest information (usually field acquisition), and 2 for the next information chronologically, etc.", blank=True, null=True)
     Reported_Provenance_notes = models.CharField(max_length=500, blank=True, null=True, verbose_name="Notes")
     Provenance = models.ForeignKey(Work_Records, blank=True, null=True)
 

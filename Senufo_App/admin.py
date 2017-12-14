@@ -38,9 +38,12 @@ class Work_RecordsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         ('Reported Field Acquisition', {
             'fields': ('Reported_field_acquisition_name', 'Reported_field_acquisition_location', 'Reported_field_acquisition_date', 'Reported_field_acquisition_date_numeric', 'Reported_field_acquisition_certainty_notes', 'Reported_field_acquisition_certainty_numeric', 'Reported_field_acquisition_provenance_order')
         }),
+        ('Reported Origin', {
+            'fields': ('Reported_origin_name', 'Reported_origin_location', 'Reported_origin_date', 'Reported_origin_date_numeric', 'Reported_origin_certainty_notes', 'Reported_origin_certainty_numeric')
+        }),
        ('Notes for Research', {
             'classes': ('collapse',),
-            'fields': ('ResearchNotes1', 'ResearchNotes2', 'Reported_field_acquisition_notes')
+            'fields': ('ResearchNotes1', 'ResearchNotes2', 'Reported_field_acquisition_notes', 'Reported_origin_notes')
         }),
     )
     list_display = ('Database_Work_Name', 'Work_Type', 'Description', 'Work_Creation_date')
