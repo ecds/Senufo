@@ -15,7 +15,11 @@
 2. <a href="{% url 'Create CSV 2' %}">Download Drawing-Photograph Map CSV File</a><br/>
 3. <a href="{% url 'Create CSV 3' %}">Download Collection Map CSV File</a><br/>
 4. <a href="{% url 'Mapped Work Page' %}">Download Posts File for WP</a><br/>
-5. <a href="{% url 'Works with LatLong' %}">Download Works Table</a><br/>
-6. <a href="{% url 'WorkPlaces with LatLong' %}">Download Work-Places Table</a></p>
+5. <a href="{% url 'Works with LatLong' %}">Download Works Table (with latitude and longitude fields)</a><br/>
+6. <a href="{% url 'Works with LatLong and Provenance' %}">Download Works Table (with latitude and longitude fields). This version includes a working provenance records export as well.</a><br/>
+7. <a href="{% url 'WorkPlaces with LatLong' %}">Download Work-Places Table</a></p>
+<p><b>***For the following two downloads - after downloading - sort the file by 'Source' AND 'Target' columns and delete any empty rows before importing the Edge file into Gephi.***</b><br/>
+8. <a href="{% url 'NetworkEdgesAcquiredFrom' %}">Download Network Edges (Collector from reported dealer)</a><br/>
+9. <a href="{% url 'NetworkEdgesCreatorCollector' %}">Download Network Edges (Collector from artist/creator)</a></p>
 <a href="http://senufo.digitalscholarship.emory.edu/admin/"><h2>Back to Admin</h2></a>
 {% endblock %}
