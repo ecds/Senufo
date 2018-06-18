@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+
+{% block extrahead %}{{ block.super }}
+{% url 'admin:jsi18n' as jsi18nurl %}
+<script type="text/javascript" src="{{ jsi18nurl|default:"../../../jsi18n/" }}"></script>
+{{ media }}
+{% endblock %}
+
+{% block content %}
+
+
+<h1>Downloads</h1>
+<p><b>***Caution these exports are pulling select information - it is not a backup of the database.***</b></p>
+<p>1. <a href="{% url 'Create CSV' %}">Download Artist Map CSV File</a><br/>
+2. <a href="{% url 'Create CSV 2' %}">Download Drawing-Photograph Map CSV File</a><br/>
+3. <a href="{% url 'Create CSV 3' %}">Download Collection Map CSV File</a><br/>
+4. <a href="{% url 'Mapped Work Page' %}">Download Posts File for WP</a><br/>
+5. <a href="{% url 'Works with LatLong' %}">Download Works Table</a><br/>
+6. <a href="{% url 'WorkPlaces with LatLong' %}">Download Work-Places Table</a></p>
+<a href="http://senufo.digitalscholarship.emory.edu/admin/"><h2>Back to Admin</h2></a>
+{% endblock %}
